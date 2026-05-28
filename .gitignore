@@ -1,0 +1,9 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+backend/capstone-backend-env/
+
+# Environment variables
+.env
