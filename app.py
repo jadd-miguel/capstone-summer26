@@ -1,10 +1,13 @@
 import streamlit as st
 from streamlit_navigation_bar import st_navbar
 
+#Run command
+#python -m streamlit run app.py
 
 class UserProfile:
     def __init__(self):
         self.name = "Me"
+        self.profiles = ["1","2","3"]
 
 #Webpage title
 st.set_page_config(
