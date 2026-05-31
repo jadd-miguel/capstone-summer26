@@ -6,7 +6,7 @@ NaviSkill AI is an agentic suite of personalised, employment-oriented
 learning and upskilling tools designed to optimise dynamic career
 roadmapping!
 
-### Installation
+## Installation
 
 **FRONTEND**
 
@@ -15,43 +15,42 @@ roadmapping!
 *Local Dev*
 1. Make sure you have [Python 3.10 and PIP ↗](https://www.python.org/downloads/release/python-31020/).
 2. To backend folder
-'cd backend'
+`cd backend`
 3. Build python env
-'python -m venv capstone-backend-env'
+`python -m venv capstone-backend-env`
 4. Install dependencies
-'pip install -r requirements.txt'
+`pip install -r requirements.txt`
 5. Activate env
-'''
+```
 (cmd) capstone-backend-env\Scripts\activate.bat
 (bash) source capstone-backend-env/Scripts/activate
 (powershell) capstone-backend-env\Scripts\Activate.ps1
-'''
+```
 6. Build app 
-'uvicorn server:app --reload'
+`uvicorn server:app --reload`
 7. Server is ready
-'http://127.0.0.1:8000'
+`http://127.0.0.1:8000`
 
 *Docker*
 1. Make sure you have [Docker ↗](https://docs.docker.com/desktop/setup/install/windows-install/).
 2. To backend folder
-'cd ./backend'
+`cd backend`
 2. Build container
-'docker compose up --build -d'
+`docker compose up --build -d`
 3. Server is ready
-'http://localhost:8000/'
+`http://localhost:8000/`
+4. To kill docker build
+`docker compose down`
 
-To kill docker build
-'docker compose down'
-
-### Stack
-Frontend -> React
-Backend -> Python, FastApi
-Database -> ?
-
-Cloud -> ?
-Container -> Docker
-CI/CD -> GitHub
+## Stack
+Frontend -> React<br>
+Backend -> Python, FastApi<br>
+Database -> ?<br>
+<br>
+Cloud -> ?<br>
+Container -> Docker<br>
+CI/CD -> GitHub<br>
     - ✔ Env, ✔ Dependencies, ✔ Syntax, ✔ Api, ✔ Docker, ✔ Deploy
 
-### Development Team
+## Development Team
 Bruno M., Jadd A., Min D., Moses E.
