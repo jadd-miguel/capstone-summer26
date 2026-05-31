@@ -1,6 +1,8 @@
 # NaviSkill AI
 
-[![Python application](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/ci-cd.yml/badge.svg?branch=main)](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/ci-cd.yml)
+[![Server Check](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_check.yml/badge.svg?branch=main)](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_check.yml)
+
+[![Server Deployed](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_deploy.yml/badge.svg?branch=main)](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_deploy.yml)
 
 NaviSkill AI is an agentic suite of personalised, employment-oriented
 learning and upskilling tools designed to optimise dynamic career
@@ -11,6 +13,7 @@ roadmapping!
 **FRONTEND**
 
 **BACKEND**
+[Server URL ↗](naviskillai-crasasakfrasaqgd.canadaeast-01.azurewebsites.net)
 
 *Local Dev*
 1. Make sure you have [Python 3.10 and PIP ↗](https://www.python.org/downloads/release/python-31020/).
@@ -45,12 +48,12 @@ capstone-backend-env\Scripts\Activate.ps1 // powershell
 ## Stack
 Frontend -> React<br>
 Backend -> Python, FastApi<br>
-Database -> ?<br>
+Database -> Supabase<br>
 <br>
-Cloud -> ?<br>
+Cloud -> Azure<br>
 Container -> Docker<br>
 CI/CD -> GitHub<br>
-    - ✔ Env, ✔ Dependencies, ✔ Syntax, ✔ Api, ✔ Docker, ✔ Deploy
+&emsp;- ✔ Env, ✔ Dependencies, ✔ Syntax, ✔ Api, ✔ Docker, ✔ Deploy
 
 ## Development Team
 Bruno M., Jadd A., Min D., Moses E.
