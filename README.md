@@ -13,7 +13,7 @@ roadmapping!
 **FRONTEND**
 
 **BACKEND**<br>
-[Server URL ↗](naviskillai-crasasakfrasaqgd.canadaeast-01.azurewebsites.net)
+[Server URL ↗](https://naviskillai-crasasakfrasaqgd.canadaeast-01.azurewebsites.net/)
 
 *Local Dev*
 1. Make sure you have [Python 3.10 and PIP ↗](https://www.python.org/downloads/release/python-31020/).
