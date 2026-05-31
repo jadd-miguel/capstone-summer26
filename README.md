@@ -22,9 +22,9 @@ roadmapping!
 `pip install -r requirements.txt`
 5. Activate env
 ```
-(cmd) capstone-backend-env\Scripts\activate.bat
-(bash) source capstone-backend-env/Scripts/activate
-(powershell) capstone-backend-env\Scripts\Activate.ps1
+capstone-backend-env\Scripts\activate.bat // cmd
+source capstone-backend-env/Scripts/activate // bash
+capstone-backend-env\Scripts\Activate.ps1 // powershell
 ```
 6. Build app 
 `uvicorn server:app --reload`
