@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import React from 'react'
 import './App.css'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import { RoadmapPage } from './pages/RoadmapPage'
-import { HomePage } from './pages/HomePage'
-import { MyInfoPage } from './pages/MyInfoPage'
+import RoadmapPage from './pages/RoadmapPage'
+import HomePage from './pages/HomePage'
+import MyInfoPage from './pages/MyInfoPage'
 
 function App() {
+    const [roadmaps, setRoadmaps] = React.useState([])
+
     return (
         <>
             <Router>

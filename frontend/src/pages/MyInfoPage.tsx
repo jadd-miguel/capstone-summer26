@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function MyInfoPage() {
+export default function MyInfoPage() {
     return (<>
         My Info
     </>)

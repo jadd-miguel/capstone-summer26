@@ -1,7 +1,7 @@
 import React from 'react';
 
-export function HomePage() {
+export default function HomePage() {
     return (<>
-        Home
+        NaviSkill AI Home
     </>)
 }
