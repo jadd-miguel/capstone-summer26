@@ -10,22 +10,22 @@ class CertificationDetails {
     
 }
 class ExperienceDetails {
-    organization: String = "";
-    timeWorked: Number = 0;
+    organization: string = "";
+    timeWorked: number = 0;
     timeWorkedUnit: "months" | "years" = "years";
 }
 class ProjectDetails {
-    timeWorked: Number = 0;
+    timeWorked: number = 0;
     timeWorkedUnit: "months" | "years" = "months";
 }
 class EducationDetails {
-    institution: String = "";
-    numYears: Number = 0;
+    institution: string = "";
+    numYears: number = 0;
 }
 class Qualification {
-    id: Number | undefined;
-    name: String = "";
-    description: String = "";
+    id: number | undefined;
+    name: string = "";
+    description: string = "";
     type: "skill" 
         | "experience" 
         | "education" 
@@ -38,7 +38,7 @@ class Qualification {
 
 
 class Education extends Qualification {
-    institution: String = "";
+    institution: string = "";
 }
 
 class UserQualifications {
