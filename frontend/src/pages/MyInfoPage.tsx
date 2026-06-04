@@ -6,13 +6,24 @@ class Details {
 class SkillDetails {
     
 }
-class ExperienceDetails {
-    organization: String = ""
-    type period = {startMonth: Date, endMonth: Date}
+class CertificationDetails {
+    
 }
-
+class ExperienceDetails {
+    organization: String = "";
+    timeWorked: Number = 0;
+    timeWorkedUnit: "months" | "years" = "years";
+}
+class ProjectDetails {
+    timeWorked: Number = 0;
+    timeWorkedUnit: "months" | "years" = "months";
+}
+class EducationDetails {
+    institution: String = "";
+    numYears: Number = 0;
+}
 class Qualification {
-    id: String | undefined;
+    id: Number | undefined;
     name: String = "";
     description: String = "";
     type: "skill" 
@@ -32,7 +43,6 @@ class Education extends Qualification {
 
 class UserQualifications {
     constructor(qualifications: Array<Qualification>) {}
-
 }
 
 export default function MyInfoPage() {
