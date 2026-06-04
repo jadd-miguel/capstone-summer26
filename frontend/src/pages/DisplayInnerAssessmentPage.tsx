@@ -26,7 +26,7 @@ type LeafAssessmentItem = {
 
 // A branch assessment's points can be determined by summing its nested assessments' points
 function getPoints(a: AssessmentItem): number {
-    if (a.kind == "branch") {
+    if (a.kind == "branch") { // If the item is a branch, recurse
         let pointsSum = 0
         for (let inner of a.nested) {
             pointsSum += getPoints(inner)
