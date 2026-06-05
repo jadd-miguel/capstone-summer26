@@ -91,7 +91,7 @@ export default function MyInfoPage() {
 
     // IDEA: let users use LinkedIn AutoFill
     return (<>
-        My Info
+        My Qualifications
         <div>Test qualification:</div>
         <div>
             {visualizeQualification(testQual)}
