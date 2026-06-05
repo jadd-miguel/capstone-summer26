@@ -59,5 +59,4 @@ CI/CD -> GitHub<br>
 <<<<<<< HEAD
 Bruno M., Jadd A., Min D., Moses E.
 =======
-Bruno M., Jadd A., Min D., Moses E.
 >>>>>>> 72c12a8fd09ecca12c0cf65869be3175fcef6e99

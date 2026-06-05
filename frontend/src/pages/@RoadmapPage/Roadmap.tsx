@@ -5,7 +5,7 @@ import React from 'react';
 
 
 export class RoadmapData {
-    name: String = "";
+    name: string = "";
 }
 
 type PropsType = {
