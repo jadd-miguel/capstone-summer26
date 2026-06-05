@@ -13,11 +13,11 @@ interface LoginProps {
 	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+{/* Log in page */}
 export default function LoginPage({ setIsAuthenticated }: LoginProps): React.JSX.Element {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
 
+	{/* Called when login button is clicked */}
 	const handleLogin = (): void => {
 		setIsAuthenticated(true);
 

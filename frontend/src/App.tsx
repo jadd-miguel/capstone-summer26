@@ -10,6 +10,7 @@ import MyInfoPage from './pages/MyInfoPage.tsx'
 function App() {
     const [roadmaps, setRoadmaps] = React.useState([])
 
+    {/* Variable to check if user if logged in */}
     const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
 
     return (

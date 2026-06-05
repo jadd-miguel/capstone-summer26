@@ -17,7 +17,7 @@ interface HeaderProps {
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-
+{/* Component for the bar at the top*/}
 export default function Header({ isAuthenticated, setIsAuthenticated }: HeaderProps): React.JSX.Element {
 
     const [menuAnchorElement, setMenuAnchorElement] = useState<null | HTMLElement>(null);
@@ -32,6 +32,7 @@ export default function Header({ isAuthenticated, setIsAuthenticated }: HeaderPr
                         NaviSkill AI
                     </Typography>
 
+                    {/* Only show this if authenticated */}
                     {isAuthenticated && (
                         <>
                             <Button
@@ -53,7 +54,8 @@ export default function Header({ isAuthenticated, setIsAuthenticated }: HeaderPr
                     )}
 
                 </Box>
-
+                
+                {/* Icon on the top right */}
                 <IconButton color="inherit" onClick={(e) => setMenuAnchorElement(e.currentTarget)}>
                     <MenuIcon />
                 </IconButton>
@@ -65,6 +67,7 @@ export default function Header({ isAuthenticated, setIsAuthenticated }: HeaderPr
             open={Boolean(menuAnchorElement)}
             onClose={() => setMenuAnchorElement(null)}
         >
+            {/* Logout option on dropdown menu */}
             <MenuItem onClick={() => { setIsAuthenticated(false) }}>Log Out</MenuItem>
         </Menu>
     </>);
