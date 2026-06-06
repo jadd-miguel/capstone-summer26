@@ -30,7 +30,7 @@ source capstone-backend-env/Scripts/activate // bash
 capstone-backend-env\Scripts\Activate.ps1 // powershell
 ```
 6. Build app 
-`uvicorn server:app --reload`
+`uvicorn controller:app --reload`
 7. Server is ready
 `http://127.0.0.1:8000`
 
@@ -56,7 +56,4 @@ CI/CD -> GitHub<br>
 &emsp;- ✔ Env, ✔ Dependencies, ✔ Syntax, ✔ Api, ✔ Docker, ✔ Deploy
 
 ## Development Team
-<<<<<<< HEAD
 Bruno M., Jadd A., Min D., Moses E.
-=======
->>>>>>> 72c12a8fd09ecca12c0cf65869be3175fcef6e99
