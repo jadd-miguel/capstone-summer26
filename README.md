@@ -13,7 +13,7 @@ roadmapping!
 **FRONTEND**
 
 **BACKEND**<br>
-[Server URL ↗](https://naviskillai-crasasakfrasaqgd.canadaeast-01.azurewebsites.net/)
+[Server URL ↗](https://capstone-summer26.onrender.com/)
 
 *Local Dev*
 1. Make sure you have [Python 3.10 and PIP ↗](https://www.python.org/downloads/release/python-31020/).
@@ -50,7 +50,7 @@ Frontend -> React<br>
 Backend -> Python, FastApi<br>
 Database -> Supabase<br>
 <br>
-Cloud -> Azure<br>
+Cloud -> Render<br>
 Container -> Docker<br>
 CI/CD -> GitHub<br>
 &emsp;- ✔ Env, ✔ Dependencies, ✔ Syntax, ✔ Api, ✔ Docker, ✔ Deploy
