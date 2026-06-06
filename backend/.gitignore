@@ -1,5 +1,5 @@
 # Virtual environment
-backend/capstone-backend-env/
+capstone-backend-env/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
