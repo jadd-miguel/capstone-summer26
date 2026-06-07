@@ -15,14 +15,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 interface HeaderProps {
     isAuthenticated: boolean;
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    isDarkMode: boolean
     swapTheme: () => void;
 }
 
 {/* Component for the bar at the top*/}
-export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme }: HeaderProps): React.JSX.Element {
+export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme, isDarkMode }: HeaderProps): React.JSX.Element {
 
     const [menuAnchorElement, setMenuAnchorElement] = useState<null | HTMLElement>(null);
-    let navigate = useNavigate()
+    //let navigate = useNavigate()
 
     return (<>
         <AppBar position="sticky">
@@ -63,14 +64,24 @@ export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme 
             </Toolbar >
         </AppBar >
 
-
+        {/* Dropdown Menu on the right */}
         <Menu anchorEl={menuAnchorElement}
             open={Boolean(menuAnchorElement)}
             onClose={() => setMenuAnchorElement(null)}
         >
-            {/* Logout option on dropdown menu */}
+            
+            {/* Dark/Light Mode button */}
+            {isDarkMode ? (
+                <>
+                    <MenuItem onClick={() => { swapTheme() }}>Light Mode</MenuItem>
+                </>
+            ) : (
+                <>
+                    <MenuItem onClick={() => { swapTheme() }}>Dark Mode</MenuItem>
+                </>
+            )}
+            {/* Logout button */}
             <MenuItem onClick={() => { setIsAuthenticated(false) }}>Log Out</MenuItem>
-            <MenuItem onClick={() => { swapTheme() }}>Swap Mode</MenuItem>
         </Menu>
     </>);
 };

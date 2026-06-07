@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 import PrivateRoutes from './components/PrivateRoutes.tsx'
@@ -7,13 +7,14 @@ import LoginPage from './pages/LoginPage.tsx'
 import HomePage from './pages/HomePage.tsx'
 import MyInfoPage from './pages/MyInfoPage.tsx'
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
-import { green, blue } from '@mui/material/colors'
 
 function App() {
-    const [roadmaps, setRoadmaps] = React.useState([])
+    //const [roadmaps, setRoadmaps] = React.useState([])
 
     {/* Variable to check if user if logged in */ }
     const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
+
+    {/* Variable to use in Light/Dark Mode */ }
     const [isDarkMode, setDarkMode] = React.useState(false);
 
     const swapTheme = () => {
@@ -32,7 +33,7 @@ function App() {
         palette: {
             mode: 'dark',
             primary: { main: '#90caf9' },
-            background: { default: '#121212', paper: '#1e1e1e' },
+            background: { default: '#1e1e1e', paper: '#1e1e1e' },
         },
     });
 
@@ -41,7 +42,7 @@ function App() {
             <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
                 <CssBaseline/>
                 <Router>
-                    <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} swapTheme={swapTheme}></Header>
+                    <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} swapTheme={swapTheme} isDarkMode={isDarkMode}></Header>
                     <Routes>
                         {/* Public Routes */}
                         <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
