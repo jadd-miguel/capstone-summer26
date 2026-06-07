@@ -15,10 +15,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 interface HeaderProps {
     isAuthenticated: boolean;
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    swapTheme: () => void;
 }
 
 {/* Component for the bar at the top*/}
-export default function Header({ isAuthenticated, setIsAuthenticated }: HeaderProps): React.JSX.Element {
+export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme }: HeaderProps): React.JSX.Element {
 
     const [menuAnchorElement, setMenuAnchorElement] = useState<null | HTMLElement>(null);
     let navigate = useNavigate()
@@ -69,6 +70,7 @@ export default function Header({ isAuthenticated, setIsAuthenticated }: HeaderPr
         >
             {/* Logout option on dropdown menu */}
             <MenuItem onClick={() => { setIsAuthenticated(false) }}>Log Out</MenuItem>
+            <MenuItem onClick={() => { swapTheme() }}>Swap Mode</MenuItem>
         </Menu>
     </>);
 };

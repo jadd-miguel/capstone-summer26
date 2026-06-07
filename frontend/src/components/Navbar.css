@@ -19,7 +19,7 @@
     text-decoration: none;
     color: #333;
     font-weight: bold;
-    transition: color 0.2s ease;
+    /*transition: color 0.2s ease;*/
 }
 
 /* Adds a hover state so users know it is clickable */
