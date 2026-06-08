@@ -11,6 +11,7 @@ import {
     Button
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import * as api from '../util/api.ts'
 
 interface HeaderProps {
     isAuthenticated: boolean;
@@ -22,15 +23,16 @@ interface HeaderProps {
 {/* Component for the bar at the top*/}
 export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme, isDarkMode }: HeaderProps): React.JSX.Element {
 
+    {/* Variable used for dropdown menu*/}
     const [menuAnchorElement, setMenuAnchorElement] = useState<null | HTMLElement>(null);
-    //let navigate = useNavigate()
+    let navigate = useNavigate()
 
     return (<>
         <AppBar position="sticky">
             <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
-                    <Typography variant="h6" sx={{ mr: 2 }}>
+                    <Typography variant="h6" sx={{ mr: 2 }} onClick={()=>(navigate("/login"))}>
                         NaviSkill AI
                     </Typography>
 
@@ -73,15 +75,15 @@ export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme,
             {/* Dark/Light Mode button */}
             {isDarkMode ? (
                 <>
-                    <MenuItem onClick={() => { swapTheme() }}>Light Mode</MenuItem>
+                    <MenuItem onClick={swapTheme}>Light Mode</MenuItem>
                 </>
             ) : (
                 <>
-                    <MenuItem onClick={() => { swapTheme() }}>Dark Mode</MenuItem>
+                    <MenuItem onClick={swapTheme}>Dark Mode</MenuItem>
                 </>
             )}
             {/* Logout button */}
-            <MenuItem onClick={() => { setIsAuthenticated(false) }}>Log Out</MenuItem>
+            <MenuItem onClick={() => { setIsAuthenticated(false);api.auth.logout() }}>Log Out</MenuItem>
         </Menu>
     </>);
 };

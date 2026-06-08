@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage.tsx'
 import HomePage from './pages/HomePage.tsx'
 import MyInfoPage from './pages/MyInfoPage.tsx'
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
+import SignupPage from './pages/SignupPage.tsx'
 
 function App() {
     //const [roadmaps, setRoadmaps] = React.useState([])
@@ -17,10 +18,12 @@ function App() {
     {/* Variable to use in Light/Dark Mode */ }
     const [isDarkMode, setDarkMode] = React.useState(false);
 
+    {/* Swap Themes */ }
     const swapTheme = () => {
         setDarkMode((prev) => !prev);
     };
 
+    {/* Light/Dark Themes */ }
     const lightTheme = createTheme({
         palette: {
             mode: 'light',
@@ -28,7 +31,6 @@ function App() {
             background: { default: '#f5f5f5', paper: '#ffffff' },
         },
     });
-
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -40,20 +42,28 @@ function App() {
     return (
         <>
             <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+                
+                {/* Used for Light/Dark Theme */}
                 <CssBaseline/>
+
                 <Router>
                     <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} swapTheme={swapTheme} isDarkMode={isDarkMode}></Header>
                     <Routes>
                         {/* Public Routes */}
                         <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
+                        <Route path="/signup" element={<SignupPage/>} />
 
                         {/* Protected Routes Wrapper */}
+                        {/* isAuthenticated needs to be true to be able to access them */}
+                        {/* Any new pages should go inside this Route */}
                         <Route element={<PrivateRoutes isAuthenticated={isAuthenticated} />}>
                             <Route path="/home" element={<HomePage />} />
                             <Route path="/info" element={<MyInfoPage />} />
                         </Route>
 
+                        {/* Default route navigate to /login */}
                         <Route path="*" element={<Navigate to="/login" replace />} />
+                        
                     </Routes>
                 </Router>
             </ThemeProvider>

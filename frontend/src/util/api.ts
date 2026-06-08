@@ -67,10 +67,15 @@ const put = async (url: string, body: any, responseFormat: ResponseFormat = "jso
 const auth = {
 	login: (body: any) => post(server("/login"), body),
 	signup: (body: any) => post(server("/create_user"), body),
-	singout: () => post(server("/logout"), null),
+	logout: () => post(server("/logout"), null),
 }
 
+//Bundle of api calls for model
+const model ={
+
+}
 
 export {
 	auth,
+	model
 }
