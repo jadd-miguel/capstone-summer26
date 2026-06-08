@@ -13,11 +13,11 @@ async function postJob(jd: JobDesc) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(jd)
-        })
-        console.log(response)
+        });
+        console.log(response);
     }
     catch(e) {
-        console.warn("Job description upload failed:", e)
+        console.warn("Job description upload failed:", e);
     }
 }
 
