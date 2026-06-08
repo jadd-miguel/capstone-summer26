@@ -80,3 +80,13 @@ def gap_agent(payload: Dict):
     except Exception as e:
         res = f"Error: {e}"
     return res
+
+@app.post("/llm_agent")
+def llm_agent():
+    print("test")
+    try:
+
+        res = service.llm_agent()
+    except Exception as e:
+        res = f"Error: {e}"
+    return res
