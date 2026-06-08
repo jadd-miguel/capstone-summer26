@@ -7,7 +7,7 @@ type JobDesc = {
 
 async function postJob(jd: JobDesc) {
     try{
-        const response = await fetch("http://127.0.0.1:8000" , { // FIXME change to self url when deployed
+        const response = await fetch("http://127.0.0.1:8000/jd" , { // FIXME change to self url when deployed
             method: "post",
             headers: {
                 'Content-Type': 'application/json'
