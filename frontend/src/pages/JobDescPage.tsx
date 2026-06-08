@@ -1,6 +1,26 @@
 
 import { useState } from "react";
 
+type JobDesc = {
+    job_description: string
+}
+
+async function postJob(jd: JobDesc) {
+    try{
+        const response = await fetch("http://127.0.0.1:8000" , { // FIXME change to self url when deployed
+            method: "post",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jd)
+        })
+        console.log(response)
+    }
+    catch(e) {
+        console.warn("Job description upload failed:", e)
+    }
+}
+
 export default function JobDescPage() {
   const [jobText, setJobText] = useState<string>("");
   const [jobs, setJobs] = useState<string[]>([]);
@@ -9,6 +29,7 @@ export default function JobDescPage() {
     if (jobText.trim() === "") return;
     setJobs([...jobs, jobText]);
     setJobText("");
+    postJob({job_description: jobText})
   };
 
   const removeJob = (index: number) => {
