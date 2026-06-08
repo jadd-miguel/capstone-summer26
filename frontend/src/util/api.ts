@@ -32,6 +32,7 @@ const handleResponse = async (response: Response, responseFormat: ResponseFormat
 
 
 const post = async (url: string, body: any, responseFormat: ResponseFormat = "json") => {
+	//console.log(JSON.stringify(body))
 	let response = await fetch(url, {
 		method: "POST",
 		headers,

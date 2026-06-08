@@ -27,7 +27,7 @@ export default function LoginPage({ setIsAuthenticated }: LoginProps): React.JSX
 
 		try {
 			const payload = { email, password };
-			const response = await api.auth.login(payload);
+			const response = await api.auth.signup(payload);
 
 			console.log("Login successful:", response);
 			// Handle your successful login here (e.g., save token, redirect user)
