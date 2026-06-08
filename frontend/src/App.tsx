@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom'
 import './App.css'
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import RoadmapPage from './pages/RoadmapPage'
 import HomePage from './pages/HomePage'
 import MyInfoPage from './pages/MyInfoPage'
@@ -8,6 +8,9 @@ import JobDescPage from './pages/JobDescPage';
 
 function App() {
     const [roadmaps, setRoadmaps] = React.useState([])
+
+    {/* Variable to check if user if logged in */}
+    const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
 
     return (
         <>
