@@ -1,44 +1,27 @@
 from supabase import create_client, Client
-from services.util.types import Skill_Gap_Input
-import services.util.viability_engine
+from services.util.types import SkillGapInput, CoverLetterGenInput, ResumeGenInput
+from services.util.viability_engine import FillableGapAgent
 import services.util.llm_agent
-import re
 
-DATABASE_URL="https://yldvdgyehndhqchnvjis.supabase.co"
-DATABASE_ANON="sb_publishable_kX5MogJvs5ekIrSr-v1rjQ_vqsUdaUd"
+DATABASE_URL="https://hygoffoliyjhxapyxoyr.supabase.co"
+DATABASE_ANON="sb_publishable_lwjXFQ7Q1Eer-56Zk_OpYg_vB6bb135"
 JD_TBL_NAME = "users_job_descriptions"
 
 supabase: Client = create_client(DATABASE_URL, DATABASE_ANON)
-
-ERROR_INDICATE = r"error"
-class AUTHENTICATION_ERROR(Exception):
-    pass
-
-def is_error_msg(msg):
-    print("error chk")
-    if re.search(ERROR_INDICATE, msg.lower()):
-        print("error is thrown")
-        raise AUTHENTICATION_ERROR(msg)
+LLM_MODEL = services.util.llm_agent.DocumentGenerationAgent()
 
 def create_user(payload):
-    res = supabase.auth.sign_up(payload)
-    print("lala")
-    is_error_msg(res)
-    return res
+    return supabase.auth.sign_up(payload)
 
 def login(payload):
-    res = supabase.auth.sign_in_with_password(payload)
-    is_error_msg(res)
-    return res
+    return supabase.auth.sign_in_with_password(payload)
 
 def logout():
-    res = supabase.auth.sign_out()
-    is_error_msg(res)
+    supabase.auth.sign_out()
 
 def get_jds(payload):
     user_id = payload["user_id"]
     res = supabase.table(JD_TBL_NAME).select("*").eq("user_id", user_id).execute()
-
     return res
 
 def insert_jd(payload):
@@ -57,22 +40,26 @@ def delete_jd(payload):
     return res
 
 def gap_agent(payload):
-    skills = Skill_Gap_Input(payload)
-    gap_agent = services.util.viability_engine.FillableGapAgent() 
-
+    skills = SkillGapInput(payload)
+    gap_agent = FillableGapAgent() 
     res = gap_agent.analyze_viability(skills.candidate_skills, skills.job_requirements)
     return res
 
-def llm_agent():
-    llm_agent = services.util.llm_agent.DocumentGenerationAgent()
-
-# res = llm_agent.generate_cover_letter(["Python", "SQL", "Pandas", "Jira", "Tableau"], "Software Developer", "Epson")
-    candidate_name = "wembanyama"
-    candidate_skills = ["Python", "SQL", "Pandas", "Jira", "Tableau"]
-    experience_history= ["mechanic", "teacher"],
-    target_job_title= "Alligator Tamer"
-
-    res = llm_agent.generate_resume(candidate_name, candidate_skills, experience_history, target_job_title)
-
+def cover_letter_agent(payload):
+    input = CoverLetterGenInput(payload)
+    res = LLM_MODEL.generate_cover_letter(
+        input.candidate_skills,
+        input.job_title,
+        input.company_name
+    )
     return res
 
+def resume_agent(payload):
+    input = ResumeGenInput(payload)
+    res = LLM_MODEL.generate_resume(
+        input.candidate_name,
+        input.candidate_skills,
+        input.experience_history,
+        input.target_job_title
+    )
+    return res
