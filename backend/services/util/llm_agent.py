@@ -38,6 +38,7 @@ class DocumentGenerationAgent:
 
             return {
                 "status": "success",
+                "document_type": "cover_letter", 
                 "prompt_used": system_prompt,
                 "generated_document": response.choices[0].message.content,
             }
@@ -45,5 +46,41 @@ class DocumentGenerationAgent:
         except Exception as e:
             return {
                 "status": "error",
-                "message": f"LLM Generation failed: {str(e)}"
+                "message": f"Cover Letter Generation failed: {str(e)}"
             }
+
+    def generate_resume(self, candidate_name: str, candidate_skills: list, experience_history: list, target_job_title: str) -> dict:
+        system_prompt = f"""
+        You are an elite technical resume writer. Take the provided candidate data and format it into a 
+        highly optimized, ATS-friendly resume targeting a {target_job_title} position.
+        
+        Candidate Name: {candidate_name}
+        Core Skills to Highlight: {', '.join(candidate_skills)}
+        Raw Experience Data: {experience_history}
+        
+        Output Requirements:
+        - Format the response strictly in clean Markdown format.
+        - Include a strong Professional Summary.
+        - Rewrite their experience bullets to sound highly impactful and quantifiable (use action verbs).
+        - Keep the tone "Quiet Luxury" — professional, understated, and highly competent.
+        """
+
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": f"Generate the targeted resume for the {target_job_title} role."}
+                ],
+                temperature=0.5
+            )
+
+            return {
+                "status": "success",
+                "document_type": "resume",
+                "prompt_used": system_prompt,
+                "generated_document": response.choices[0].message.content,
+            }
+
+        except Exception as e:
+            return {"status": "error", "message": f"Resume Generation failed: {str(e)}"}
