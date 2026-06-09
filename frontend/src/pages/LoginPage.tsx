@@ -13,14 +13,14 @@ import * as api from '../util/api.ts'
 
 interface LoginProps {
 	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+	alert: (message: string) => void;
 }
 
 {/* Log in page */ }
-export default function LoginPage({ setIsAuthenticated }: LoginProps): React.JSX.Element {
+export default function LoginPage({ alert, setIsAuthenticated }: LoginProps): React.JSX.Element {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
 	{/* Called when login button is clicked */ }
@@ -37,8 +37,7 @@ export default function LoginPage({ setIsAuthenticated }: LoginProps): React.JSX
 
 		} catch (err) {
 			console.error(err);
-			setError(String(err))
-			setError("Failed to sign in. Please check your credentials.");
+			alert(String(err))
 		}
 
 

@@ -18,10 +18,11 @@ interface HeaderProps {
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
     isDarkMode: boolean
     swapTheme: () => void;
+    alert: (message: string) => void;
 }
 
 {/* Component for the bar at the top*/ }
-export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme, isDarkMode }: HeaderProps): React.JSX.Element {
+export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme, isDarkMode, alert }: HeaderProps): React.JSX.Element {
 
     {/* Variable used for dropdown menu*/ }
     const [menuAnchorElement, setMenuAnchorElement] = useState<null | HTMLElement>(null);

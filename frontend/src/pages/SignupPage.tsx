@@ -10,13 +10,19 @@ import {
 } from "@mui/material";
 import * as api from '../util/api.ts'
 
+interface SignupProps {
+    alert: (message: string) => void;
+}
+
 {/* Log in page */ }
-export default function SignupPage(): React.JSX.Element {
+export default function SignupPage({ alert }: SignupProps): React.JSX.Element {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+
+
 
     {/* Called when login button is clicked */ }
     const handleSignup = async (): Promise<void> => {
@@ -31,11 +37,10 @@ export default function SignupPage(): React.JSX.Element {
 
         } catch (err) {
             console.error(err);
-            setError(String(err))
-            setError("Failed to sign up. Please check your credentials.");
+            alert(String(err))
         }
 
-        
+
     };
 
     return (
@@ -44,7 +49,7 @@ export default function SignupPage(): React.JSX.Element {
             <CardContent>
                 <TextField fullWidth label="Email" sx={{ marginBottom: "1em" }}
                     value={email}
-                    onChange={e => {setEmail(e.target.value) }}
+                    onChange={e => { setEmail(e.target.value) }}
 
                 />
                 <TextField fullWidth label="Password"
