@@ -74,6 +74,8 @@ export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme,
         >
             
             <MenuItem onClick={swapTheme}>{isDarkMode ? 'Light' : 'Dark'} Mode</MenuItem>
+
+            <MenuItem onClick={() => { setIsAuthenticated(true); navigate("/home") }}>Bypass login</MenuItem>
             
             {/* Logout button */}
             <MenuItem onClick={() => { setIsAuthenticated(false); api.auth.logout() }}>Log Out</MenuItem>

@@ -71,11 +71,12 @@ const auth = {
 }
 
 //Bundle of api calls for model
-const model ={
-
+const agent = {
+	generate_cover_letter: (body: any) => post(server("/cover_letter_agent"), body),
+	generate_resume: (body: any) => post(server("/resume_agent"), body),
 }
 
 export {
 	auth,
-	model
+	agent
 }

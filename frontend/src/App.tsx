@@ -71,7 +71,7 @@ function App() {
                         {/* isAuthenticated needs to be true to be able to access them */}
                         {/* Any new pages should go inside this Route */}
                         <Route element={<PrivateRoutes isAuthenticated={isAuthenticated} />}>
-                            <Route path="/home" element={<HomePage />} />
+                            <Route path="/home" element={<HomePage alert={alert} />} />
                             <Route path="/info" element={<MyInfoPage />} />
                         </Route>
 

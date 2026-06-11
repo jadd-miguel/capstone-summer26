@@ -32,6 +32,7 @@ export default function SignupPage({ alert }: SignupProps): React.JSX.Element {
             const response = await api.auth.signup(payload);
 
             console.log("Signup successful:", response);
+            alert("Signup successful")
             // Handle your successful login here (e.g., save token, redirect user)
             navigate('/login');
 

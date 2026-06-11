@@ -61,8 +61,10 @@ class DocumentGenerationAgent:
         Output Requirements:
         - Format the response strictly in clean Markdown format.
         - Include a strong Professional Summary.
+        - Add new lines where applicable.
         - Rewrite their experience bullets to sound highly impactful and quantifiable (use action verbs).
         - Keep the tone "Quiet Luxury" — professional, understated, and highly competent.
+        - Include only the resume.
         """
 
         try:

@@ -31,6 +31,7 @@ export default function LoginPage({ alert, setIsAuthenticated }: LoginProps): Re
 			const response = await api.auth.login(payload);
 
 			console.log("Login successful:", response);
+			alert("Login successful")
 			// Handle your successful login here (e.g., save token, redirect user)
 			setIsAuthenticated(true);
 			navigate('/home');
