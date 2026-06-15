@@ -18,12 +18,13 @@ interface HeaderProps {
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
     isDarkMode: boolean
     swapTheme: () => void;
+    alert: (message: string) => void;
 }
 
-{/* Component for the bar at the top*/}
-export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme, isDarkMode }: HeaderProps): React.JSX.Element {
+{/* Component for the bar at the top*/ }
+export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme, isDarkMode, alert }: HeaderProps): React.JSX.Element {
 
-    {/* Variable used for dropdown menu*/}
+    {/* Variable used for dropdown menu*/ }
     const [menuAnchorElement, setMenuAnchorElement] = useState<null | HTMLElement>(null);
     let navigate = useNavigate()
 
@@ -32,7 +33,7 @@ export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme,
             <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
-                    <Typography variant="h6" sx={{ mr: 2 }} onClick={()=>(navigate("/login"))}>
+                    <Typography variant="h6" sx={{ mr: 2 }} onClick={() => (navigate("/login"))}>
                         NaviSkill AI
                     </Typography>
 
@@ -58,7 +59,7 @@ export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme,
                     )}
 
                 </Box>
-                
+
                 {/* Icon on the top right */}
                 <IconButton color="inherit" onClick={(e) => setMenuAnchorElement(e.currentTarget)}>
                     <MenuIcon />
@@ -72,18 +73,12 @@ export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme,
             onClose={() => setMenuAnchorElement(null)}
         >
             
-            {/* Dark/Light Mode button */}
-            {isDarkMode ? (
-                <>
-                    <MenuItem onClick={swapTheme}>Light Mode</MenuItem>
-                </>
-            ) : (
-                <>
-                    <MenuItem onClick={swapTheme}>Dark Mode</MenuItem>
-                </>
-            )}
+            <MenuItem onClick={swapTheme}>{isDarkMode ? 'Light' : 'Dark'} Mode</MenuItem>
+
+            <MenuItem onClick={() => { setIsAuthenticated(true); navigate("/home") }}>Bypass login</MenuItem>
+            
             {/* Logout button */}
-            <MenuItem onClick={() => { setIsAuthenticated(false);api.auth.logout() }}>Log Out</MenuItem>
+            <MenuItem onClick={() => { setIsAuthenticated(false); api.auth.logout() }}>Log Out</MenuItem>
         </Menu>
     </>);
 };
