@@ -1,5 +1,5 @@
 from supabase import create_client, Client
-from services.util.types import Skill_Gap_Input
+from services.util.data_models import Skill_Gap_Input
 import services.util.viability_engine
 
 DATABASE_URL="https://yldvdgyehndhqchnvjis.supabase.co"
