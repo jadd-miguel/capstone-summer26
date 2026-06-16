@@ -20,7 +20,6 @@ class DocumentGenerationAgent:
         Focus strictly on how these specific skills add immediate enterprise value: {', '.join(candidate_skills)}.
         Tone: authoritative, concise, corporate.
         """
-
         try:
             response = self.client.chat.completions.create(
                 model="gpt-4o-mini",
@@ -30,14 +29,12 @@ class DocumentGenerationAgent:
                 ],
                 temperature=0.7 
             )
-
             return {
                 "status": "success",
                 "document_type": "cover_letter", 
                 "prompt_used": system_prompt,
                 "generated_document": response.choices[0].message.content,
             }
-
         except Exception as e:
             return {
                 "status": "error",
@@ -61,7 +58,6 @@ class DocumentGenerationAgent:
         - Keep the tone "Quiet Luxury" — professional, understated, and highly competent.
         - Include only the resume.
         """
-
         try:
             response = self.client.chat.completions.create(
                 model="gpt-4o-mini",
@@ -71,14 +67,12 @@ class DocumentGenerationAgent:
                 ],
                 temperature=0.5
             )
-
             return {
                 "status": "success",
                 "document_type": "resume",
                 "prompt_used": system_prompt,
                 "generated_document": response.choices[0].message.content,
             }
-
         except Exception as e:
             return {"status": "error", "message": f"Resume Generation failed: {str(e)}"}
 
@@ -150,3 +144,34 @@ class DocumentGenerationAgent:
             return {"status": "success", "document_type": "career_roadmap", "generated_document": response.choices[0].message.content}
         except Exception as e:
             return {"status": "error", "message": f"Roadmap Generation failed: {str(e)}"}
+
+    def generate_bridge_roles(self, candidate_skills: list, target_role: str) -> dict:
+        system_prompt = f"""
+        You are a Predictive Career Architect.
+        The candidate's ultimate goal is to become a {target_role}, but they currently lack the required senior experience.
+        They HAVE these baseline skills: {', '.join(candidate_skills)}.
+        
+        Generate exactly 3 "Bridge Roles" (stepping-stone jobs) that they are highly qualified to apply for right now. 
+        These roles must directly build the exact experience needed for their target role.
+        
+        Provide a strict JSON output matching this exact structure, nothing else:
+        {{
+            "bridge_roles": [
+                {{
+                    "job_title": "[Title of the stepping-stone job]",
+                    "match_reason": "[One sentence on why their current skills qualify them]",
+                    "experience_gained": "[One sentence on how this job prepares them for the {target_role}]"
+                }}
+            ]
+        }}
+        """
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-4o-mini",
+                response_format={"type": "json_object"},
+                messages=[{"role": "system", "content": system_prompt}],
+                temperature=0.2, 
+            )
+            return {"status": "success", "document_type": "bridge_roles", "generated_document": response.choices[0].message.content}
+        except Exception as e:
+            return {"status": "error", "message": f"Bridge Role Generation failed: {str(e)}"}

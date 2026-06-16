@@ -19,7 +19,6 @@ app.add_middleware(
 def create_user(payload: Dict):
     try:
         return service.create_user(payload)
-
     except Exception as e:
         status = getattr(e, "status")
         code = getattr(e, "code")
@@ -32,7 +31,6 @@ def create_user(payload: Dict):
 def login(payload: Dict):
     try:
         return service.login(payload)
-
     except Exception as e:
         status = getattr(e, "status")
         code = getattr(e, "code")
@@ -46,7 +44,6 @@ def logout():
     try:
         service.logout()
         return "Logout is Success"
-
     except Exception as e:
         status = getattr(e, "status")
         code = getattr(e, "code")
@@ -59,7 +56,6 @@ def logout():
 def get_jds(payload: Dict):
     try:
         return service.get_jds(payload)
-
     except Exception as e:
         code = getattr(e, "code")
         hint = getattr(e, "hint")
@@ -72,7 +68,6 @@ def get_jds(payload: Dict):
 def insert_jd(payload: Dict):
     try:
         return service.insert_jd(payload)
-
     except Exception as e:
         code = getattr(e, "code")
         hint = getattr(e, "hint")
@@ -85,7 +80,6 @@ def insert_jd(payload: Dict):
 def update_jd(payload: Dict):
     try:
         return service.update_jd(payload)
-
     except Exception as e:
         code = getattr(e, "code")
         hint = getattr(e, "hint")
@@ -98,7 +92,6 @@ def update_jd(payload: Dict):
 def delete_jd(payload: Dict):
     try:
         return service.delete_jd(payload)
-
     except Exception as e:
         code = getattr(e, "code")
         hint = getattr(e, "hint")
@@ -111,7 +104,6 @@ def delete_jd(payload: Dict):
 def get_quals(payload: Dict):
     try:
         return service.get_quals(payload)
-
     except Exception as e:
         code = getattr(e, "code")
         hint = getattr(e, "hint")
@@ -124,7 +116,6 @@ def get_quals(payload: Dict):
 def insert_quals(payload: Dict):
     try:
         return service.insert_quals(payload)
-
     except Exception as e:
         code = getattr(e, "code")
         hint = getattr(e, "hint")
@@ -137,7 +128,6 @@ def insert_quals(payload: Dict):
 def update_quals(payload: Dict):
     try:
         return service.update_quals(payload)
-
     except Exception as e:
         code = getattr(e, "code")
         hint = getattr(e, "hint")
@@ -150,7 +140,6 @@ def update_quals(payload: Dict):
 def delete_quals(payload: Dict):
     try:
         return service.delete_quals(payload)
-
     except Exception as e:
         code = getattr(e, "code")
         hint = getattr(e, "hint")
@@ -163,7 +152,6 @@ def delete_quals(payload: Dict):
 def gap_agent(payload: Dict):
     try:
         return service.gap_agent(payload)
-
     except Exception as e:
         raise HTTPException(
             status_code=500,
@@ -174,7 +162,6 @@ def gap_agent(payload: Dict):
 def cover_letter_agent(payload: Dict = None):
     try:
         return service.cover_letter_agent(payload)
-
     except Exception as e:
         raise HTTPException(
             status_code=500,
@@ -185,40 +172,46 @@ def cover_letter_agent(payload: Dict = None):
 def resume_agent(payload: Dict = None):
     try:
         return service.resume_agent(payload)
-
     except Exception as e:
         raise HTTPException(
             status_code=500,
             detail = f"{e}"
         )
-    
+
 @app.post("/generate_interview")
 def generate_interview(payload: Dict = None):
     try:
         return service.generate_interview(payload)
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,    
-            detail = f"{e}"
-        )
-    
-@app.post("/score_resume")
-def score_resume(payload: Dict = None):
-    try:
-        return service.score_resume(payload)
-
     except Exception as e:
         raise HTTPException(
             status_code=500,
             detail = f"{e}"
         )
-    
+
+@app.post("/score_resume")
+def score_resume(payload: Dict = None):
+    try:
+        return service.score_resume(payload)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail = f"{e}"
+        )
+
 @app.post("/generate_roadmap")
 def generate_roadmap(payload: Dict = None):
     try:
         return service.generate_roadmap(payload)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail = f"{e}"
+        )
 
+@app.post("/generate_bridge_roles")
+def generate_bridge_roles(payload: Dict = None):
+    try:
+        return service.generate_bridge_roles(payload)
     except Exception as e:
         raise HTTPException(
             status_code=500,

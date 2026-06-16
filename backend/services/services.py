@@ -93,3 +93,9 @@ def generate_roadmap(payload):
         target_role=payload.get("target_role", ""),
         time_to_master_days=payload.get("time_to_master_days", 0)
     )
+
+def generate_bridge_roles(payload):
+    return LLM_MODEL.generate_bridge_roles(
+        candidate_skills=payload.get("candidate_skills", []),
+        target_role=payload.get("target_role", "")
+    )
