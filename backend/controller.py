@@ -139,3 +139,36 @@ def resume_agent(payload: Dict = None):
             status_code=500,
             detail = f"{e}"
         )
+    
+@app.post("/generate_interview")
+def generate_interview(payload: Dict = None):
+    try:
+        return service.generate_interview(payload)
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,    
+            detail = f"{e}"
+        )
+    
+@app.post("/score_resume")
+def score_resume(payload: Dict = None):
+    try:
+        return service.score_resume(payload)
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail = f"{e}"
+        )
+    
+@app.post("/generate_roadmap")
+def generate_roadmap(payload: Dict = None):
+    try:
+        return service.generate_roadmap(payload)
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail = f"{e}"
+        )
