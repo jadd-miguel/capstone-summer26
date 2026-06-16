@@ -6,6 +6,7 @@ import services.util.llm_agent
 DATABASE_URL="https://hygoffoliyjhxapyxoyr.supabase.co"
 DATABASE_ANON="sb_publishable_lwjXFQ7Q1Eer-56Zk_OpYg_vB6bb135"
 JD_TBL_NAME = "users_job_descriptions"
+QUALS_TBL_NAME = "users_qualifications"
 
 supabase: Client = create_client(DATABASE_URL, DATABASE_ANON)
 LLM_MODEL = services.util.llm_agent.DocumentGenerationAgent()
@@ -34,6 +35,22 @@ def update_jd(payload):
 def delete_jd(payload):
     id = payload["id"]
     return supabase.table(JD_TBL_NAME).delete().eq("id", id).execute()
+
+def get_quals(payload):
+    user_id = payload["user_id"]
+    return supabase.table(QUALS_TBL_NAME).select("*").eq("user_id", user_id).execute()
+
+def insert_quals(payload):
+    return supabase.table(QUALS_TBL_NAME).insert(payload).execute()
+
+def update_quals(payload):
+    id = payload["id"]
+    update = payload["update"]
+    return supabase.table(QUALS_TBL_NAME).update(update).eq("id", id).execute()
+
+def delete_quals(payload):
+    id = payload["id"]
+    return supabase.table(QUALS_TBL_NAME).delete().eq("id", id).execute()
 
 def gap_agent(payload):
     skills = SkillGapInput(payload)

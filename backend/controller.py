@@ -106,6 +106,58 @@ def delete_jd(payload: Dict):
             status_code=500,
             detail = f"{code} | {hint} | {e}"
         )
+    
+@app.get("/quals")
+def get_quals(payload: Dict):
+    try:
+        return service.get_quals(payload)
+
+    except Exception as e:
+        code = getattr(e, "code")
+        hint = getattr(e, "hint")
+        raise HTTPException(
+            status_code=500,
+            detail = f"{code} | {hint} | {e}"
+        )
+
+@app.post("/quals")
+def insert_quals(payload: Dict):
+    try:
+        return service.insert_quals(payload)
+
+    except Exception as e:
+        code = getattr(e, "code")
+        hint = getattr(e, "hint")
+        raise HTTPException(
+            status_code=500,
+            detail = f"{code} | {hint} | {e}"
+        )
+
+@app.patch("/quals")
+def update_quals(payload: Dict):
+    try:
+        return service.update_quals(payload)
+
+    except Exception as e:
+        code = getattr(e, "code")
+        hint = getattr(e, "hint")
+        raise HTTPException(
+            status_code=500,
+            detail = f"{code} | {hint} | {e}"
+        )
+
+@app.delete("/quals")
+def delete_quals(payload: Dict):
+    try:
+        return service.delete_quals(payload)
+
+    except Exception as e:
+        code = getattr(e, "code")
+        hint = getattr(e, "hint")
+        raise HTTPException(
+            status_code=500,
+            detail = f"{code} | {hint} | {e}"
+        )
 
 @app.post("/gap_agent")
 def gap_agent(payload: Dict):
