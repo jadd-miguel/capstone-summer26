@@ -12,6 +12,7 @@ import ResumePage from './pages/ResumePage.tsx'
 import { CssBaseline, Snackbar, ThemeProvider, createTheme } from '@mui/material'
 import SignupPage from './pages/SignupPage.tsx'
 import RoadmapPage from './pages/RoadmapPage.tsx'
+import QualJobPage from './pages/QualJobPage.tsx'
 
 function App() {
     //const [roadmaps, setRoadmaps] = React.useState([])
@@ -76,7 +77,7 @@ function App() {
                         {/* Any new pages should go inside this Route */}
                         <Route element={<PrivateRoutes isAuthenticated={isAuthenticated} />}>
                             <Route path="/home" element={<HomePage alert={alert} />} />
-                            <Route path="/info" element={<MyInfoPage />} />
+                            <Route path="/info" element={<QualJobPage />} />
                             <Route path="/profiles" element={<ProfilesPage alert={alert} />} />
                             <Route path="/resume" element={<ResumePage alert={alert} />} />
                             <Route path="/roadmap" element={<RoadmapPage/>} />

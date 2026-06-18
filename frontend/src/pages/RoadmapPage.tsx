@@ -6,20 +6,16 @@ type PropsType = {
 }
 
 import { useState, } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
     Paper,
     CardHeader,
-    CardContent,
-    TextField,
-    Stack,
-    Button,
-    Link
+    CardContent
 } from "@mui/material";
 import * as api from '../util/api.ts'
 
 {/* Roadmap Page */ }
 export default function RoadmapPage(): React.JSX.Element {
+    const [skillGapSummary, setSkillGapSummary] = useState([])
 
     return (<>
         <Paper elevation={4} sx={{ marginTop: "1em" }}>
