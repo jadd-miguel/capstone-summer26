@@ -2,6 +2,9 @@ from supabase import create_client, Client
 from services.util.data_models import SkillGapInput, CoverLetterGenInput, ResumeGenInput
 from services.util.viability_engine import FillableGapAgent
 import services.util.llm_agent
+import os
+import requests
+from dotenv import load_dotenv
 
 DATABASE_URL="https://hygoffoliyjhxapyxoyr.supabase.co"
 DATABASE_ANON="sb_publishable_lwjXFQ7Q1Eer-56Zk_OpYg_vB6bb135"
@@ -11,6 +14,11 @@ QUALS_TBL_NAME = "users_qualifications"
 supabase: Client = create_client(DATABASE_URL, DATABASE_ANON)
 LLM_MODEL = services.util.llm_agent.DocumentGenerationAgent()
 
+load_dotenv()
+ADZUNA_URL = "https://api.adzuna.com/v1/api"
+ADZUNA_ID = os.getenv("ADZUNA_ID")
+ADZUNA_KEY = os.getenv("ADZUNA_KEY")
+
 def create_user(payload):
     return supabase.auth.sign_up(payload)
 
@@ -19,6 +27,14 @@ def login(payload):
 
 def logout():
     supabase.auth.sign_out()
+
+def get_jobs():
+    headers = {
+        "Accept": "application/json"
+    }
+    url = ADZUNA_URL + "/jobs/ca/search/1" + f"?app_id={ADZUNA_ID}" + f"&app_key={ADZUNA_KEY}"
+    res = requests.get(url, headers=headers)
+    return res.json()
 
 def get_jds(payload):
     user_id = payload["user_id"]
@@ -55,7 +71,10 @@ def delete_quals(payload):
 def gap_agent(payload):
     skills = SkillGapInput(payload)
     gap_agent = FillableGapAgent() 
-    return gap_agent.analyze_viability(skills.candidate_skills, skills.job_requirements)
+    return gap_agent.analyze_viability(
+        skills.candidate_skills,
+        skills.job_requirements
+    )
 
 def cover_letter_agent(payload):
     input = CoverLetterGenInput(payload)
