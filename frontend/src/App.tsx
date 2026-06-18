@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage.tsx'
 import MyInfoPage from './pages/MyInfoPage.tsx'
 import ProfilesPage from './pages/ProfilesPage.tsx'
 import Roadmap from './pages/@RoadmapPage/Roadmap.tsx'
+import ResumePage from './pages/ResumePage.tsx'
 import { CssBaseline, Snackbar, ThemeProvider, createTheme } from '@mui/material'
 import SignupPage from './pages/SignupPage.tsx'
 
@@ -76,6 +77,7 @@ function App() {
                             <Route path="/home" element={<HomePage alert={alert} />} />
                             <Route path="/info" element={<MyInfoPage />} />
                             <Route path="/profiles" element={<ProfilesPage alert={alert} />} />
+                            <Route path="/resume" element={<ResumePage alert={alert} />} />
                             <Route path="/roadmap" element={<Roadmap data={{name:"test"}} />} />
                         </Route>
 

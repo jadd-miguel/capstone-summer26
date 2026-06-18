@@ -1,11 +1,7 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Paper,
     CardHeader,
-    CardContent,
-    TextField,
-    Stack,
     Button,
     Box
 } from "@mui/material";
@@ -16,31 +12,7 @@ interface HomePageProps {
 }
 
 export default function HomePage({ alert }: HomePageProps) {
-
-
-    let navigate = useNavigate()
-
-    const handleAgentCall = async (): Promise<void> => {
-        alert("Calling agent, please hold")
-        try {
-            const payload = {
-                candidate_skills: ["Game design", "Artist"],
-                job_title: ["Level Design"],
-                company_name: "Digital Extremes"
-            };
-            const response = await api.agent.generate_cover_letter(payload)
-
-            console.log("Login successful:", response);
-            alert("Call successful")
-
-
-        } catch (err) {
-            console.error(err);
-            alert(String(err))
-        }
-
-
-    };
+    const navigate = useNavigate()
 
     return (
         <>
@@ -57,7 +29,7 @@ export default function HomePage({ alert }: HomePageProps) {
                     <CardHeader title="Applications"></CardHeader>
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
                         <Button onClick={() => navigate("/home")} sx={{ margin: "1em" }} variant="contained" color="primary">Jobs Applied</Button>
-                        <Button onClick={() => navigate("/home")} sx={{ margin: "1em" }} variant="contained" color="primary">Resume generator</Button>
+                        <Button onClick={() => navigate("/resume")} sx={{ margin: "1em" }} variant="contained" color="primary">Resume generator</Button>
                     </Box>
                 </Paper>
             </Box>
