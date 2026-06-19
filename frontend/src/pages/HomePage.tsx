@@ -21,7 +21,7 @@ export default function HomePage({ alert }: HomePageProps) {
                 <Paper sx={{ marginTop: "1em", width: "15em" }}>
                     <CardHeader title="Jobs"></CardHeader>
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
-                        <Button onClick={() => navigate("/home")} sx={{ margin: "1em" }} variant="contained" color="primary">Job Descriptions</Button>
+                        <Button onClick={() => navigate("/info")} sx={{ margin: "1em" }} variant="contained" color="primary">Job Descriptions</Button>
                         <Button onClick={() => navigate("/roadmap")} sx={{ margin: "1em" }} variant="contained" color="primary">Roadmaps</Button>
                     </Box>
                 </Paper>
