@@ -6,8 +6,13 @@ import Header from './components/Header.tsx'
 import LoginPage from './pages/LoginPage.tsx'
 import HomePage from './pages/HomePage.tsx'
 import MyInfoPage from './pages/MyInfoPage.tsx'
+import ProfilesPage from './pages/ProfilesPage.tsx'
+import Roadmap from './pages/@RoadmapPage/Roadmap.tsx'
+import ResumePage from './pages/ResumePage.tsx'
 import { CssBaseline, Snackbar, ThemeProvider, createTheme } from '@mui/material'
 import SignupPage from './pages/SignupPage.tsx'
+import RoadmapPage from './pages/RoadmapPage.tsx'
+import QualJobPage from './pages/QualJobPage.tsx'
 
 function App() {
     //const [roadmaps, setRoadmaps] = React.useState([])
@@ -72,7 +77,10 @@ function App() {
                         {/* Any new pages should go inside this Route */}
                         <Route element={<PrivateRoutes isAuthenticated={isAuthenticated} />}>
                             <Route path="/home" element={<HomePage alert={alert} />} />
-                            <Route path="/info" element={<MyInfoPage />} />
+                            <Route path="/info" element={<QualJobPage />} />
+                            <Route path="/profiles" element={<ProfilesPage alert={alert} />} />
+                            <Route path="/resume" element={<ResumePage alert={alert} />} />
+                            <Route path="/roadmap" element={<RoadmapPage/>} />
                         </Route>
 
                         {/* Default route navigate to /login */}

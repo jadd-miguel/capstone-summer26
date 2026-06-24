@@ -26,7 +26,7 @@ export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme,
 
     {/* Variable used for dropdown menu*/ }
     const [menuAnchorElement, setMenuAnchorElement] = useState<null | HTMLElement>(null);
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     return (<>
         <AppBar position="sticky">
@@ -72,13 +72,24 @@ export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme,
             open={Boolean(menuAnchorElement)}
             onClose={() => setMenuAnchorElement(null)}
         >
-            
+
             <MenuItem onClick={swapTheme}>{isDarkMode ? 'Light' : 'Dark'} Mode</MenuItem>
 
-            <MenuItem onClick={() => { setIsAuthenticated(true); navigate("/home") }}>Bypass login</MenuItem>
-            
+            {/* Debbug Feature Remove Later */}
+            {!isAuthenticated && (
+                <MenuItem onClick={() => { setIsAuthenticated(true); navigate("/home") }}>Bypass login</MenuItem>
+            )}
+
+            {isAuthenticated && (
+                <MenuItem onClick={() => { navigate("/profiles") }}>Profiles</MenuItem>
+            )}
+
+
             {/* Logout button */}
-            <MenuItem onClick={() => { setIsAuthenticated(false); api.auth.logout() }}>Log Out</MenuItem>
+            {isAuthenticated && (
+                <MenuItem onClick={() => { setIsAuthenticated(false); api.auth.logout() }}>Log Out</MenuItem>
+            )}
+
         </Menu>
     </>);
 };
