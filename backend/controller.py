@@ -217,3 +217,35 @@ def generate_bridge_roles(payload: Dict = None):
             status_code=500,
             detail = f"{e}"
         )
+
+@app.post("/discover_jobs")
+def discover_jobs(payload: Dict):
+    """Semantic Vector Search for matching jobs."""
+    try:
+        return service.discover_matching_jobs(payload)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Semantic Search Error: {e}")
+
+@app.post("/refine_bullets")
+def refine_bullets(payload: Dict):
+    """Converts raw resume bullets into the STAR method."""
+    try:
+        return service.refine_resume_bullets(payload)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"STAR Refiner Error: {e}")
+
+@app.post("/benchmark_candidate")
+def benchmark_candidate(payload: Dict):
+    """Generates market competitiveness and salary leverage."""
+    try:
+        return service.benchmark_candidate(payload)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Benchmarking Error: {e}")
+
+@app.post("/persona_interview")
+def persona_interview(payload: Dict):
+    """Generates a dynamic interview script based on interviewer persona."""
+    try:
+        return service.persona_interview_agent(payload)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Persona Interview Error: {e}")
