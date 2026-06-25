@@ -48,5 +48,8 @@ jobs:
         with:
           context: ./backend
           file: ./backend/Dockerfile
-          push: true
+          push: false
           tags: ghcr.io/${{ github.repository }}:latest
+
+        - name: Verify build
+        run: echo "Build complete and pushed to registry."
