@@ -45,35 +45,34 @@ export default function ResumePage({ alert }: ResumeProps): React.JSX.Element {
     };
 
     return (
-        <Grid container spacing={2} sx={{ p: 3 }}>
-            {/* Input Section */}
+        <Grid container spacing={4} sx={{ p: 4, bgcolor: '#f4f6f8', minHeight: '100vh' }}>
+            {/* Header */}
             <Grid size={12}>
-                <Paper sx={{ p: 2, mb: 2 }}>
-                    <TextField label="Candidate Name" value={candidateName} onChange={(e) => setCandidateName(e.target.value)} sx={{ mr: 2 }} />
-                    <TextField label="Target Job Title" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} />
-                    <Button 
-                        onClick={handleResumeCall} 
-                        variant="contained" 
-                        disabled={loading} 
-                        sx={{ ml: 2, height: '56px' }}
-                    >
-                        {loading ? <CircularProgress size={24} color="inherit" /> : "GENERATE RESUME"}
+                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#1a237e' }}>
+                    Career Architect Dashboard
+                </Typography>
+                <Typography variant="subtitle1" color="text.secondary">
+                    Optimize your profile for high-value job markets.
+                </Typography>
+            </Grid>
+
+            {/* Left: Input Form */}
+            <Grid size={4}>
+                <Paper sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>
+                    <Typography variant="h6" gutterBottom>Profile Details</Typography>
+                    <TextField fullWidth label="Name" value={candidateName} onChange={(e) => setCandidateName(e.target.value)} sx={{ mb: 2 }} />
+                    <TextField fullWidth label="Target Role" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} sx={{ mb: 2 }} />
+                    <Button fullWidth variant="contained" onClick={handleResumeCall} disabled={loading} size="large" sx={{ bgcolor: '#1a237e' }}>
+                        {loading ? <CircularProgress size={24} color="inherit" /> : "BUILD RESUME"}
                     </Button>
                 </Paper>
             </Grid>
 
-            {/* Display Section */}
-            <Grid size={6}>
-                <Paper sx={{ p: 2, height: '70vh', overflowY: 'auto' }}>
-                    <Typography variant="h5">Resume</Typography>
-                    <ReactMarkdown>{resumeGenerated}</ReactMarkdown>
-                </Paper>
-            </Grid>
-            
-            <Grid size={6}>
-                <Paper sx={{ p: 2, height: '70vh', overflowY: 'auto' }}>
-                    <Typography variant="h5">Cover Letter</Typography>
-                    <ReactMarkdown>{coverLetterGenerated}</ReactMarkdown>
+            {/* Right: Output Preview */}
+            <Grid size={8}>
+                <Paper sx={{ p: 3, height: '75vh', overflowY: 'auto', borderRadius: 2, boxShadow: 3 }}>
+                    <Typography variant="h6" gutterBottom>Live Preview</Typography>
+                    <ReactMarkdown>{resumeGenerated || "Your professional resume will appear here..."}</ReactMarkdown>
                 </Paper>
             </Grid>
         </Grid>
