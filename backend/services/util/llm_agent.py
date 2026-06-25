@@ -12,36 +12,32 @@ class DocumentGenerationAgent:
         self.client = OpenAI(api_key=self.api_key)
 
     def generate_resume(self, candidate_name: str, candidate_skills: list, 
-                        experience_history: list, target_job_title: str, 
-                        template_type: str = "experience_first") -> dict:
+                        experience_history: list, target_job_title: str) -> dict:
         
-        strategy = (
-            "Prioritize professional achievements, quantifying impact with metrics." 
-            if template_type == "experience_first" 
-            else "Prioritize education, technical coursework, and academic projects."
-        )
-
         system_prompt = f"""
-        You are an elite technical resume writer. Format the candidate data into an ATS-friendly resume.
-        Candidate: {candidate_name}
-        Skills: {', '.join(candidate_skills)}
-        Experience: {experience_history}
-        Formatting Strategy: {strategy}
-        Tone: Professional, concise, highly competent.
-        Include only the markdown resume content.
+        You are an elite Career Architect. 
+        TASK: Produce a high-leverage resume for a {target_job_title} role.
+        
+        MANDATORY RULES:
+        1. Use STAR (Situation, Task, Action, Result) for all bullet points.
+        2. Quantify every bullet with metrics (%, $, or time saved).
+        3. Prioritize 'Action Verbs' (e.g., Architected, Optimized, Scaled).
+        4. No conversational filler or introductory sentences. Output ONLY the resume content in clean Markdown.
+        5. For non-technical experience, explicitly frame tasks as transferable skills (e.g., 'Stakeholder Management', 'Process Optimization').
         """
+        
         try:
             response = self.client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4o",
                 messages=[
                     {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": f"Generate a {template_type} resume for {target_job_title}."}
+                    {"role": "user", "content": f"Candidate: {candidate_name}. Skills: {', '.join(candidate_skills)}. History: {experience_history}. Target: {target_job_title}."}
                 ],
-                temperature=0.4
+                temperature=0.2 # Lower temperature for cold, hard, professional results
             )
-            return {"status": "success", "document_type": "resume", "generated_document": response.choices[0].message.content}
+            return {"status": "success", "generated_document": response.choices[0].message.content}
         except Exception as e:
-            return {"status": "error", "message": f"Resume Generation failed: {str(e)}"}
+            return {"status": "error", "message": str(e)}
 
     def generate_bridge_roles(self, candidate_skills: list, target_role: str) -> dict:
         system_prompt = f"""
