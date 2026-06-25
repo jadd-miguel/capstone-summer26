@@ -1,37 +1,49 @@
 import { useNavigate } from 'react-router-dom';
-import { Paper, Button, Box, Typography, Container, Grid } from "@mui/material";
+import { Box, Typography, Paper, Divider, Stack } from "@mui/material";
+import SpeedIcon from '@mui/icons-material/Speed';
+import DescriptionIcon from '@mui/icons-material/Description';
+import MapIcon from '@mui/icons-material/Map';
+import WorkIcon from '@mui/icons-material/Work';
 
 export default function HomePage() {
     const navigate = useNavigate();
 
-    const menuItems = [
-        { title: "Job Market", items: [{ label: "Job Descriptions", path: "/info" }, { label: "Roadmaps", path: "/roadmap" }] },
-        { title: "Career Toolkit", items: [{ label: "Jobs Applied", path: "/home" }, { label: "Resume Generator", path: "/resume" }] }
-    ];
+    const ActionCard = ({ title, icon: Icon, path }: any) => (
+        <Paper 
+            onClick={() => navigate(path)}
+            sx={{ 
+                p: 3, cursor: 'pointer', transition: '0.3s',
+                '&:hover': { transform: 'translateY(-5px)', boxShadow: 6 },
+                display: 'flex', alignItems: 'center', gap: 2, borderRadius: 2
+            }}
+        >
+            <Icon sx={{ fontSize: 40, color: '#1a237e' }} />
+            <Typography variant="h6" fontWeight={600}>{title}</Typography>
+        </Paper>
+    );
 
     return (
-        <Container maxWidth="md" sx={{ mt: 8 }}>
-            <Typography variant="h3" sx={{ fontWeight: 800, color: '#0A192F', textAlign: 'center', mb: 2 }}>
-                NaviSkill AI
-            </Typography>
-            <Typography variant="subtitle1" sx={{ color: '#666', textAlign: 'center', mb: 6 }}>
-                Orchestrating your career path with precision.
-            </Typography>
-            
-            <Grid container spacing={4}>
-                {menuItems.map((section) => (
-                    <Grid item xs={12} md={6} key={section.title}>
-                        <Paper sx={{ p: 4, borderRadius: 3, boxShadow: "0px 10px 30px rgba(0,0,0,0.1)" }}>
-                            <Typography variant="h6" sx={{ mb: 3, fontWeight: 700, color: '#1a237e' }}>{section.title}</Typography>
-                            {section.items.map((item) => (
-                                <Button key={item.label} fullWidth variant="outlined" onClick={() => navigate(item.path)} sx={{ mb: 2, py: 1.5, borderColor: '#1a237e', color: '#1a237e' }}>
-                                    {item.label}
-                                </Button>
-                            ))}
-                        </Paper>
-                    </Grid>
-                ))}
-            </Grid>
-        </Container>
+        <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f0f2f5' }}>
+            {/* Sidebar */}
+            <Box sx={{ width: 260, bgcolor: '#0A192F', color: 'white', p: 3 }}>
+                <Typography variant="h5" fontWeight={800} mb={4}>NaviSkill AI</Typography>
+                <Divider sx={{ bgcolor: 'rgba(255,255,255,0.2)', mb: 4 }} />
+                <Stack spacing={2}>
+                    <Typography variant="caption" color="gray">MAIN</Typography>
+                    <Typography sx={{ cursor: 'pointer' }} onClick={() => navigate('/home')}>Dashboard</Typography>
+                    <Typography sx={{ cursor: 'pointer' }} onClick={() => navigate('/resume')}>Resume Generator</Typography>
+                </Stack>
+            </Box>
+
+            {/* Main Content */}
+            <Box sx={{ flexGrow: 1, p: 6 }}>
+                <Typography variant="h4" fontWeight={700} mb={6}>Command Center</Typography>
+                <Stack spacing={3}>
+                    <ActionCard title="Generate High-Conversion Resume" icon={DescriptionIcon} path="/resume" />
+                    <ActionCard title="View Career Roadmaps" icon={MapIcon} path="/roadmap" />
+                    <ActionCard title="Explore Job Opportunities" icon={WorkIcon} path="/info" />
+                </Stack>
+            </Box>
+        </Box>
     );
 }
