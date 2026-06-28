@@ -1,49 +1,51 @@
 import { useNavigate } from 'react-router-dom';
-import { Box, Typography, Paper, Divider, Stack } from "@mui/material";
-import SpeedIcon from '@mui/icons-material/Speed';
-import DescriptionIcon from '@mui/icons-material/Description';
-import MapIcon from '@mui/icons-material/Map';
-import WorkIcon from '@mui/icons-material/Work';
+import { Paper, Button, Box, Typography, Container, Grid } from "@mui/material";
 
-export default function HomePage() {
+export default function HomePage({ alert }: any) {
     const navigate = useNavigate();
 
-    const ActionCard = ({ title, icon: Icon, path }: any) => (
-        <Paper 
-            onClick={() => navigate(path)}
-            sx={{ 
-                p: 3, cursor: 'pointer', transition: '0.3s',
-                '&:hover': { transform: 'translateY(-5px)', boxShadow: 6 },
-                display: 'flex', alignItems: 'center', gap: 2, borderRadius: 2
-            }}
-        >
-            <Icon sx={{ fontSize: 40, color: '#1a237e' }} />
-            <Typography variant="h6" fontWeight={600}>{title}</Typography>
-        </Paper>
-    );
-
     return (
-        <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f0f2f5' }}>
-            {/* Sidebar */}
-            <Box sx={{ width: 260, bgcolor: '#0A192F', color: 'white', p: 3 }}>
-                <Typography variant="h5" fontWeight={800} mb={4}>NaviSkill AI</Typography>
-                <Divider sx={{ bgcolor: 'rgba(255,255,255,0.2)', mb: 4 }} />
-                <Stack spacing={2}>
-                    <Typography variant="caption" color="gray">MAIN</Typography>
-                    <Typography sx={{ cursor: 'pointer' }} onClick={() => navigate('/home')}>Dashboard</Typography>
-                    <Typography sx={{ cursor: 'pointer' }} onClick={() => navigate('/resume')}>Resume Generator</Typography>
-                </Stack>
+        <Container maxWidth="md" sx={{ mt: 8, mb: 8 }}>
+            <Box sx={{ textAlign: 'center', mb: 6 }}>
+                <Typography variant="h3" sx={{ fontWeight: 800, color: '#0A192F', mb: 1 }}>
+                    NaviSkill AI
+                </Typography>
+                <Typography variant="body1" sx={{ color: '#555', fontSize: '1.1rem' }}>
+                    Command center for your career architecture.
+                </Typography>
             </Box>
+            
+            <Grid container spacing={4}>
+                {/* Jobs Section */}
+                <Grid item xs={12} md={6}>
+                    <Paper elevation={2} sx={{ p: 4, borderRadius: 3, height: '100%' }}>
+                        <Typography variant="h6" sx={{ mb: 3, fontWeight: 700, color: '#1a237e' }}>
+                            Market Intelligence
+                        </Typography>
+                        <Button fullWidth variant="contained" onClick={() => navigate("/info")} sx={{ mb: 2, py: 1.5 }}>
+                            Job Descriptions
+                        </Button>
+                        <Button fullWidth variant="outlined" onClick={() => navigate("/roadmap")} sx={{ py: 1.5 }}>
+                            Career Roadmaps
+                        </Button>
+                    </Paper>
+                </Grid>
 
-            {/* Main Content */}
-            <Box sx={{ flexGrow: 1, p: 6 }}>
-                <Typography variant="h4" fontWeight={700} mb={6}>Command Center</Typography>
-                <Stack spacing={3}>
-                    <ActionCard title="Generate High-Conversion Resume" icon={DescriptionIcon} path="/resume" />
-                    <ActionCard title="View Career Roadmaps" icon={MapIcon} path="/roadmap" />
-                    <ActionCard title="Explore Job Opportunities" icon={WorkIcon} path="/info" />
-                </Stack>
-            </Box>
-        </Box>
+                {/* Applications Section */}
+                <Grid item xs={12} md={6}>
+                    <Paper elevation={2} sx={{ p: 4, borderRadius: 3, height: '100%' }}>
+                        <Typography variant="h6" sx={{ mb: 3, fontWeight: 700, color: '#1a237e' }}>
+                            Application Suite
+                        </Typography>
+                        <Button fullWidth variant="contained" onClick={() => navigate("/home")} sx={{ mb: 2, py: 1.5 }}>
+                            Jobs Applied
+                        </Button>
+                        <Button fullWidth variant="outlined" onClick={() => navigate("/resume")} sx={{ py: 1.5 }}>
+                            Resume Generator
+                        </Button>
+                    </Paper>
+                </Grid>
+            </Grid>
+        </Container>
     );
 }
