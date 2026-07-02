@@ -26,7 +26,7 @@ export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme,
 
     {/* Variable used for dropdown menu*/ }
     const [menuAnchorElement, setMenuAnchorElement] = useState<null | HTMLElement>(null);
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     return (<>
         <AppBar position="sticky">

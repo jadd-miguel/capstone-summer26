@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import './App.css'
+
 import PrivateRoutes from './components/PrivateRoutes.tsx'
 import Header from './components/Header.tsx'
 import LoginPage from './pages/LoginPage.tsx'

@@ -11,6 +11,7 @@ roadmapping!
 ## Installation
 
 **FRONTEND**
+[Website URL ↗](https://http://localhost:5173/.com/)
 
 **BACKEND**<br>
 [Server URL ↗](https://capstone-summer26.onrender.com/)
