@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import services.services as service
 from services.util.data_models import AuthenticationError, SupabaseError
@@ -106,52 +106,49 @@ def gap_agent(payload: Dict):
     try:
         return service.gap_agent(payload)
     except Exception as e:
-        raise SupabaseError(e)
+        raise HTTPException(status_code=500, detail=f"Gap Agent Error: {e}")
 
 @app.post("/cover_letter_agent")
 def cover_letter_agent(payload: Dict = None):
     try:
         return service.cover_letter_agent(payload)
     except Exception as e:
-        raise SupabaseError(e)
+        raise HTTPException(status_code=500, detail=f"Cover Letter Error: {e}")
 
 @app.post("/resume_agent")
 def resume_agent(payload: Dict = None):
     try:
         return service.resume_agent(payload)
     except Exception as e:
-        raise SupabaseError(e)
+        raise HTTPException(status_code=500, detail=f"Resume Gen Error: {e}")
 
 @app.post("/generate_interview")
 def generate_interview(payload: Dict = None):
     try:
         return service.generate_interview(payload)
     except Exception as e:
-        raise SupabaseError(e)
+        raise HTTPException(status_code=500, detail=f"Interview Gen Error: {e}")
 
 @app.post("/score_resume")
 def score_resume(payload: Dict = None):
     try:
         return service.score_resume(payload)
     except Exception as e:
-        raise SupabaseError(e)
+        raise HTTPException(status_code=500, detail=f"Resume Score Error: {e}")
 
 @app.post("/generate_roadmap")
 def generate_roadmap(payload: Dict = None):
     try:
         return service.generate_roadmap(payload)
     except Exception as e:
-        raise SupabaseError(e)
+        raise HTTPException(status_code=500, detail=f"Roadmap Gen Error: {e}")
 
 @app.post("/generate_bridge_roles")
 def generate_bridge_roles(payload: Dict = None):
     try:
         return service.generate_bridge_roles(payload)
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail = f"{e}"
-        )
+        raise HTTPException(status_code=500, detail=f"Bridging Roles Error: {e}")
 
 @app.post("/discover_jobs")
 def discover_jobs(payload: Dict):
