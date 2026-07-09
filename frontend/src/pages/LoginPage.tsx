@@ -10,10 +10,13 @@ import {
 	Link
 } from "@mui/material";
 import * as api from '../util/api.ts'
+import {UserProfile, Profile} from '../util/Profiles.ts'
 
 interface LoginProps {
 	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 	alert: (message: string) => void;
+	userProfile?: UserProfile;
+	setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>;
 }
 
 {/* Log in page */ }
@@ -32,7 +35,9 @@ export default function LoginPage({ alert, setIsAuthenticated }: LoginProps): Re
 
 			console.log("Login successful:", response);
 			alert("Login successful")
-			// Handle your successful login here (e.g., save token, redirect user)
+			
+			//Add code to fetch user data and put it in userProfile
+
 			setIsAuthenticated(true);
 			navigate('/home');
 

@@ -14,8 +14,11 @@ import SignupPage from './pages/SignupPage.tsx'
 import RoadmapPage from './pages/RoadmapPage.tsx'
 import QualJobPage from './pages/QualJobPage.tsx'
 
+import {UserProfile, Profile} from './util/Profiles.ts'
+
 function App() {
     //const [roadmaps, setRoadmaps] = React.useState([])
+    const [userProfile, setUserProfile] = React.useState<UserProfile>(new UserProfile("Place Holder", [new Profile("Role 1", ["Job 1", "Job 2"], ["Qual 1", "Qual 2"]), new Profile("Role 2", ["Job 3", "Job 4"], ["Qual 3", "Qual 4"])]));
 
     {/* Snackbar object */ }
     const [snackbar, setSnackBar] = React.useState({
@@ -69,7 +72,7 @@ function App() {
                     <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} swapTheme={swapTheme} isDarkMode={isDarkMode} alert={alert}></Header>
                     <Routes>
                         {/* Public Routes */}
-                        <Route path="/login" element={<LoginPage alert={alert} setIsAuthenticated={setIsAuthenticated} />} />
+                        <Route path="/login" element={<LoginPage alert={alert} setIsAuthenticated={setIsAuthenticated} userProfile={userProfile} setUserProfile={setUserProfile} />} />
                         <Route path="/signup" element={<SignupPage alert={alert} />} />
 
                         {/* Protected Routes Wrapper */}
@@ -78,8 +81,8 @@ function App() {
                         <Route element={<PrivateRoutes isAuthenticated={isAuthenticated} />}>
                             <Route path="/home" element={<HomePage alert={alert} />} />
                             <Route path="/info" element={<QualJobPage />} />
-                            <Route path="/profiles" element={<ProfilesPage alert={alert} />} />
-                            <Route path="/resume" element={<ResumePage alert={alert} />} />
+                            <Route path="/profiles" element={<ProfilesPage alert={alert} userProfile={userProfile} setUserProfile={setUserProfile} />} />
+                            <Route path="/resume" element={<ResumePage alert={alert} userProfile={userProfile} />} />
                             <Route path="/roadmap" element={<RoadmapPage/>} />
                         </Route>
 
