@@ -10,7 +10,10 @@ import {
 	Box,
 	Typography,
 	ButtonGroup,
+<<<<<<< HEAD
 	IconButton,
+=======
+>>>>>>> 9a1f5109978966bb8e7bd5534f64e136a9e8f454
 } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import * as api from '../util/api.ts'
@@ -27,6 +30,12 @@ interface ProfilesProps {
 {/* Log in page */ }
 export default function ProfilesPage({ alert, userProfile, setUserProfile }: ProfilesProps): React.JSX.Element {
 
+<<<<<<< HEAD
+=======
+	const [name, setName] = useState(userProfile.name)
+	//const [profileIndex, setProfileIndex] = useState(0)
+
+>>>>>>> 9a1f5109978966bb8e7bd5534f64e136a9e8f454
 	const handleSelectProfile = (index: number) => {
 		setUserProfile((prevUser) => {
 			// Create a new reference to trigger a React re-render
@@ -35,6 +44,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 			return updatedUser;
 		});
 	};
+<<<<<<< HEAD
 	const updateProfileArray = (
 		arrayKey: 'jobDescriptions' | 'qualifications',
 		action: 'edit' | 'add' | 'delete',
@@ -131,6 +141,8 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 		});
 	};
 
+=======
+>>>>>>> 9a1f5109978966bb8e7bd5534f64e136a9e8f454
 
 	return (
 		<>
@@ -138,6 +150,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 				<CardHeader title="Profiles"></CardHeader>
 				<CardContent>
 					<TextField fullWidth label="Name" sx={{ margin: "1em", width: "40%" }}
+<<<<<<< HEAD
 						value={userProfile.name}
 						onChange={e => { handleNameChange(e.target.value) }}
 					/>
@@ -145,6 +158,11 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 						<Button variant="contained" color="primary" onClick={handleNewProfile}>Add Profile</Button>
 					</Stack>
 
+=======
+						value={name}
+						onChange={e => { setName(e.target.value) }}
+					/>
+>>>>>>> 9a1f5109978966bb8e7bd5534f64e136a9e8f454
 					{/* 1. Dynamic Profile Selection Buttons */}
 					<Stack direction="row" spacing={1} sx={{ margin: "1em", marginBottom: "2em" }}>
 						<ButtonGroup variant="outlined" aria-label="profile selection">
@@ -157,15 +175,21 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 										variant={isActive ? "contained" : "outlined"}
 										onClick={() => handleSelectProfile(index)}
 									>
+<<<<<<< HEAD
 										{profile.targetRole}
 									</Button>
 
+=======
+										{`Profile ${index + 1}`}
+									</Button>
+>>>>>>> 9a1f5109978966bb8e7bd5534f64e136a9e8f454
 								);
 							})}
 						</ButtonGroup>
 					</Stack>
 					<TextField fullWidth label="Target Role" sx={{ margin: "1em", width: "40%" }}
 						value={userProfile.getTargetRole()}
+<<<<<<< HEAD
 						onChange={(e) => handleRoleChange(e.target.value)}
 					/>
 
@@ -175,6 +199,16 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 						gap: 4,
 						margin: "1em",
 						marginTop: "2.5em"
+=======
+					/>
+
+					<Box sx={{ 
+						display: 'flex', 
+						flexDirection: { xs: 'column', md: 'row' }, // Stack on mobile, side-by-side on desktop
+						gap: 4, 
+						margin: "1em", 
+						marginTop: "2.5em" 
+>>>>>>> 9a1f5109978966bb8e7bd5534f64e136a9e8f454
 					}}>
 
 						{/* LEFT COLUMN: JOB DESCRIPTIONS */}
@@ -190,6 +224,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 											multiline
 											label={`Requirement #${index + 1}`}
 											value={description}
+<<<<<<< HEAD
 											onChange={(e) => updateProfileArray('jobDescriptions', 'edit', index, e.target.value)}
 
 										/>
@@ -200,13 +235,23 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 										>
 											<DeleteIcon />
 										</IconButton>
+=======
+											//onChange={(e) => updateProfileArray('jobDescriptions', 'edit', index, e.target.value)}
+										/>
+>>>>>>> 9a1f5109978966bb8e7bd5534f64e136a9e8f454
 
 									</Stack>
 								))}
 							</Stack>
+<<<<<<< HEAD
 							<Button
 								variant="outlined"
 								onClick={() => updateProfileArray('jobDescriptions', 'add')}
+=======
+							<Button 
+								variant="outlined" 
+								//onClick={() => updateProfileArray('jobDescriptions', 'add')}
+>>>>>>> 9a1f5109978966bb8e7bd5534f64e136a9e8f454
 								sx={{ marginTop: "1em" }}
 							>
 								+ Add Description
@@ -226,6 +271,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 											multiline
 											label={`Qualification #${index + 1}`}
 											value={qualification}
+<<<<<<< HEAD
 											onChange={(e) => updateProfileArray('qualifications', 'edit', index, e.target.value)}
 										/>
 										<IconButton
@@ -235,14 +281,25 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 										>
 											<DeleteIcon />
 										</IconButton>
+=======
+											//onChange={(e) => updateProfileArray('qualifications', 'edit', index, e.target.value)}
+										/>
+>>>>>>> 9a1f5109978966bb8e7bd5534f64e136a9e8f454
 
 									</Stack>
 								))}
 							</Stack>
+<<<<<<< HEAD
 							<Button
 								variant="outlined"
 								color="primary"
 								onClick={() => updateProfileArray('qualifications', 'add')}
+=======
+							<Button 
+								variant="outlined" 
+								color="primary"
+								//onClick={() => updateProfileArray('qualifications', 'add')}
+>>>>>>> 9a1f5109978966bb8e7bd5534f64e136a9e8f454
 								sx={{ marginTop: "1em" }}
 							>
 								+ Add Qualification
@@ -252,9 +309,12 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 					</Box>
 
 					<Stack direction="row" spacing={2} sx={{ marginTop: "20px" }}>
+<<<<<<< HEAD
 						<Button variant="contained" color="secondary" onClick={handleDeleteProfile}>Delete Profile</Button>
 					</Stack>
 					<Stack direction="row" spacing={2} sx={{ marginTop: "20px" }}>
+=======
+>>>>>>> 9a1f5109978966bb8e7bd5534f64e136a9e8f454
 						<Button variant="contained" color="primary">Update</Button>
 					</Stack>
 
