@@ -10,19 +10,21 @@ import {
     TextField        
 } from "@mui/material";
 import * as api from '../util/api.ts'
+import {UserProfile, Profile} from '../util/Profiles.ts'
 
 interface ResumeProps {
     alert: (message: string) => void;
+    userProfile: UserProfile;
 }
 
-export default function ResumePage({ alert }: ResumeProps): React.JSX.Element {
+export default function ResumePage({ alert, userProfile }: ResumeProps): React.JSX.Element {
     const [loading, setLoading] = useState(false);
     const [resumeGenerated, setResumeGenerated] = useState('');
     const [coverLetterGenerated, setCoverLetterGenerated] = useState('');
-    
+    console.log(userProfile.name)
     // Dynamic State
-    const [candidateName, setCandidateName] = useState("Victor Wembanyama");
-    const [jobTitle, setJobTitle] = useState("Software Developer");
+    const [candidateName, setCandidateName] = useState(userProfile.name);
+    const [jobTitle, setJobTitle] = useState(userProfile.getTargetRole());
 
     const handleResumeCall = async (): Promise<void> => {
         setLoading(true);
