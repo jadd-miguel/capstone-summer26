@@ -1,10 +1,6 @@
 import React from 'react';
 import Roadmap, { RoadmapData } from './@RoadmapPage/Roadmap';
 
-type PropsType = {
-    roadmaps: Array<RoadmapData>
-}
-
 import { useState, } from 'react';
 import {
     Paper,
@@ -16,7 +12,17 @@ import {
 } from "@mui/material";
 import * as api from '../util/api.ts'
 
+
+
+
 {/* Combined user qualification and job description page */ }
+
+type PropsType = {
+    roadmaps: Array<RoadmapData>
+}
+
+
+
 export default function QualJobPage(): React.JSX.Element {
 
     return (<>

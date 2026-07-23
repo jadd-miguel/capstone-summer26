@@ -1,9 +1,17 @@
-import "./api.ts"
+import * as api from "./api.ts"
 
-function uploadJob(jobDesc) {
-
+export function uploadJob(jobDesc: string, userId: string) {
+    api.post(api.server("/jd"), 
+        `{
+        id: -1,
+        user_id: ${userId},
+        job_description: ${jobDesc},
+        profile: null
+        }`,
+    )
 }
 
-function getJobsForProfile(profile) {
-    
+export function getJobsForProfile(profile) {
+    return api.get(api.server("/jd"))
 }
+
