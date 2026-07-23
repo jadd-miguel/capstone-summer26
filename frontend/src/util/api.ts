@@ -49,6 +49,7 @@ const del = async (url: string, body: any, responseFormat: ResponseFormat = "jso
 	});
 	return handleResponse(response, responseFormat);
 };
+
 const get = async (url: string, responseFormat: ResponseFormat = "json"): Promise<any> => {
 	let response = await fetch(url);
 	return handleResponse(response, responseFormat);
@@ -76,7 +77,13 @@ const agent = {
 	generate_resume: (body: any) => post(server("/resume_agent"), body),
 }
 
+const profiles = {
+	get_jd: (body: any) => get(server("/jd"), body),
+	get_quals: (body: any) => get(server("/quals"), body),
+}
+
 export {
 	auth,
-	agent
+	agent,
+	profiles
 }

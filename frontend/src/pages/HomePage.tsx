@@ -17,7 +17,7 @@ export default function HomePage({ alert }: any) {
             
             <Grid container spacing={4}>
                 {/* Jobs Section */}
-                <Grid item xs={12} md={6}>
+                <Grid>
                     <Paper elevation={2} sx={{ p: 4, borderRadius: 3, height: '100%' }}>
                         <Typography variant="h6" sx={{ mb: 3, fontWeight: 700, color: '#1a237e' }}>
                             Market Intelligence
@@ -32,7 +32,7 @@ export default function HomePage({ alert }: any) {
                 </Grid>
 
                 {/* Applications Section */}
-                <Grid item xs={12} md={6}>
+                <Grid>
                     <Paper elevation={2} sx={{ p: 4, borderRadius: 3, height: '100%' }}>
                         <Typography variant="h6" sx={{ mb: 3, fontWeight: 700, color: '#1a237e' }}>
                             Application Suite
