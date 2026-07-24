@@ -61,7 +61,7 @@ def insert_jd(payload): return supabase.table(JD_TBL_NAME).insert(payload).execu
 def update_jd(payload): return supabase.table(JD_TBL_NAME).update(payload["update"]).eq("id", payload["id"]).execute()
 def delete_jd(payload): return supabase.table(JD_TBL_NAME).delete().eq("id", payload["id"]).execute()
 
-def get_quals(payload): return supabase.table(QUALS_TBL_NAME).select("*").eq("user_id", payload["user_id"]).execute()
+def get_quals(token): return supabase.table(QUALS_TBL_NAME).select("*").eq("user_id", token).execute()
 def insert_quals(payload): return supabase.table(QUALS_TBL_NAME).insert(payload).execute()
 def update_quals(payload): return supabase.table(QUALS_TBL_NAME).update(payload["update"]).eq("id", payload["id"]).execute()
 def delete_quals(payload): return supabase.table(QUALS_TBL_NAME).delete().eq("id", payload["id"]).execute()
