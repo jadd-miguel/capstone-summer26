@@ -1,6 +1,6 @@
 export class Profile {
     targetRole:string;
-    jobDescriptions:string[];
+    jobDescriptions: string[];
     qualifications: string[];
 
     constructor(targetRole: string, jobDescriptions:string[], qualifications:string[]) {
@@ -12,7 +12,7 @@ export class Profile {
 
 export class UserProfile {
     name: string;
-    selectedProfileIndex: number = 0;
+    selectedProfileIndex: number = 1;
     profiles: Profile[]
 
 

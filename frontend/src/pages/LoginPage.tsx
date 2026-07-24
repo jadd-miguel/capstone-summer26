@@ -20,7 +20,7 @@ interface LoginProps {
 }
 
 {/* Log in page */ }
-export default function LoginPage({ alert, setIsAuthenticated }: LoginProps): React.JSX.Element {
+export default function LoginPage({ alert, setIsAuthenticated, userProfile, setUserProfile }: LoginProps): React.JSX.Element {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -37,14 +37,38 @@ export default function LoginPage({ alert, setIsAuthenticated }: LoginProps): Re
 				console.log("No success")
 				throw new Error("Login Unsuccessful")
 			}
-			
+
 			console.log("Login successful:", response);
 			//Add code to fetch user data and put it in userProfile
-			let id :string = response.user.id
-			const profile_payload = { user_id : "f4107247-4086-40c7-80ef-4361a54535f3" }
-			const profile_response = await api.profiles.get_jd(id)
+			const jd_response = await api.profiles.get_jd(response.user.id)
+			const qualifications_response = await api.profiles.get_quals(response.user.id)
 
-			console.log(profile_response)
+			//console.log(response)
+			console.log(jd_response)
+			console.log(qualifications_response)
+
+			const quals: string[] = []
+			qualifications_response.data.forEach((element) => { quals.push(element.profile) });
+			const jds: string[] = []
+			jd_response.data.forEach((element) => { jds.push(element.profile) });
+			const uniqueProfiles: number = Math.max(new Set(jds).size, new Set(quals).size)
+
+			
+			const profiles: Profile[] = []
+			for (let i = 1; i <= uniqueProfiles; i++) {
+				profiles[i] = new Profile("Role", [], [])
+			}
+
+			jd_response.data.map((element) => {
+				profiles[element.profile].jobDescriptions.push(element.job_description)
+			});
+			qualifications_response.data.map((element) => {
+				profiles[element.profile].qualifications.push(element.qualification)
+			});
+			console.log(profiles)
+
+
+			setUserProfile(new UserProfile(response.user.user_metadata.display_name, profiles))
 
 			alert("Login successful")
 			setIsAuthenticated(true);
