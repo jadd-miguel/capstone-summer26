@@ -103,9 +103,10 @@ def delete_jd(payload: Dict):
         )
     
 @app.get("/quals")
-def get_quals(payload: Dict):
+def get_quals(user_id: str):
     try:
-        return service.get_quals(payload)
+        ## token = authorization.replace("Bearer ", "")
+        return service.get_quals(user_id)
     except Exception as e:
         code = getattr(e, "code")
         hint = getattr(e, "hint")
