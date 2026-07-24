@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 import services.services as service
 from typing import Dict
@@ -53,12 +53,14 @@ def logout():
         )
 
 @app.get("/jd")
-def get_jds(payload: Dict):
+def get_jds(user_id: str):
     try:
-        return service.get_jds(payload)
+        ## token = authorization.replace("Bearer ", "")
+        return service.get_jds(user_id)
     except Exception as e:
         code = getattr(e, "code")
         hint = getattr(e, "hint")
+        print(hint)
         raise HTTPException(
             status_code=500,
             detail = f"{code} | {hint} | {e}"

@@ -50,8 +50,8 @@ export const del = async (url: string, body: any, responseFormat: ResponseFormat
 	return handleResponse(response, responseFormat);
 };
 
-const get = async (url: string, responseFormat: ResponseFormat = "json"): Promise<any> => {
-	let response = await fetch(url);
+const get = async (url: string, id:any, responseFormat: ResponseFormat = "json"): Promise<any> => {
+	let response = await fetch(`${url}?user_id=${id}`);
 	return handleResponse(response, responseFormat);
 };
 
