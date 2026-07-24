@@ -50,7 +50,7 @@ export const del = async (url: string, body: any, responseFormat: ResponseFormat
 	return handleResponse(response, responseFormat);
 };
 
-const get = async (url: string, responseFormat: ResponseFormat = "json"): Promise<any> => {
+export const get = async (url: string, responseFormat: ResponseFormat = "json"): Promise<any> => {
 	let response = await fetch(url);
 	return handleResponse(response, responseFormat);
 };
