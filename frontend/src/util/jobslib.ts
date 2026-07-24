@@ -13,6 +13,6 @@ export function uploadJob(jobDesc: string, userId: string) {
 
 export function getJobsForProfile(profile = null) {
     let userId = "0"
-    return api.get(`${api.server("/jd")}?user_id=${userId}`)
+    return api.get(`${api.server("/jd")}`, userId)
 }
 
