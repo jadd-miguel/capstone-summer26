@@ -64,18 +64,11 @@ def get_jobs():
     res = requests.get(url, headers=headers)
     return res.json()
 
-def get_jds(payload):
-    user_id = payload["user_id"]
-    return supabase.table(JD_TBL_NAME).select("*").eq("user_id", user_id).execute()
-
 def create_user(payload): return supabase.auth.sign_up(payload)
 def login(payload): return supabase.auth.sign_in_with_password(payload)
 def logout(): supabase.auth.sign_out()
 
-def get_jds(token): 
-    # user = supabase.auth.get_user(token)
-    # user_id = user.user.id
-    return supabase.table(JD_TBL_NAME).select("*").eq("user_id", token).execute()
+def get_jds(user_id): return supabase.table(JD_TBL_NAME).select("*").eq("user_id", user_id).execute()
 def insert_jd(payload): return supabase.table(JD_TBL_NAME).insert(payload).execute()
 def update_jd(payload): return supabase.table(JD_TBL_NAME).update(payload["update"]).eq("id", payload["id"]).execute()
 def delete_jd(payload): return supabase.table(JD_TBL_NAME).delete().eq("id", payload["id"]).execute()

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Header
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import services.services as service
 from services.util.data_models import AuthenticationError, SupabaseError
@@ -48,7 +48,6 @@ def get_jds():
 @app.get("/jd")
 def get_jds(user_id: str):
     try:
-        ## token = authorization.replace("Bearer ", "")
         return service.get_jds(user_id)
     except Exception as e:
         raise SupabaseError(e)
@@ -77,7 +76,6 @@ def delete_jd(payload: Dict):
 @app.get("/quals")
 def get_quals(user_id: str):
     try:
-        ## token = authorization.replace("Bearer ", "")
         return service.get_quals(user_id)
     except Exception as e:
         raise SupabaseError(e)
