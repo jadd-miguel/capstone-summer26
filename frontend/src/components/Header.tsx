@@ -51,9 +51,9 @@ export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme,
                             <Button
                                 color="inherit"
                                 component={Link}
-                                to="/info"
+                                to="/profiles"
                             >
-                                Info
+                                Profiles
                             </Button>
                         </>
                     )}
@@ -79,11 +79,12 @@ export default function Header({ isAuthenticated, setIsAuthenticated, swapTheme,
             {!isAuthenticated && (
                 <MenuItem onClick={() => { setIsAuthenticated(true); navigate("/home") }}>Bypass login</MenuItem>
             )}
-
+            
+            {/* 
             {isAuthenticated && (
                 <MenuItem onClick={() => { navigate("/profiles") }}>Profiles</MenuItem>
             )}
-
+            */}
 
             {/* Logout button */}
             {isAuthenticated && (
