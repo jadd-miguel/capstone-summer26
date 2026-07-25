@@ -11,6 +11,7 @@ DATABASE_URL = "https://hygoffoliyjhxapyxoyr.supabase.co"
 DATABASE_ANON = "sb_publishable_lwjXFQ7Q1Eer-56Zk_OpYg_vB6bb135"
 JD_TBL_NAME = "users_job_descriptions"
 QUALS_TBL_NAME = "users_qualifications"
+TARGET_ROLE_NAME = "target_role"
 
 supabase: Client = create_client(DATABASE_URL, DATABASE_ANON)
 LLM_MODEL = services.util.llm_agent.DocumentGenerationAgent()
@@ -67,17 +68,22 @@ def get_jobs():
 def create_user(payload): return supabase.auth.sign_up(payload)
 def login(payload): return supabase.auth.sign_in_with_password(payload)
 def logout(): supabase.auth.sign_out()
+def name(payload): return supabase.auth.update_user({"data": {"display_name": payload["name"]}})
 
 def get_jds(user_id): return supabase.table(JD_TBL_NAME).select("*").eq("user_id", user_id).execute()
 def insert_jd(payload): return supabase.table(JD_TBL_NAME).insert(payload).execute()
 def update_jd(payload): return supabase.table(JD_TBL_NAME).update(payload["update"]).eq("id", payload["id"]).execute()
 def delete_jd(payload): return supabase.table(JD_TBL_NAME).delete().eq("id", payload["id"]).execute()
 
-def get_quals(token): return supabase.table(QUALS_TBL_NAME).select("*").eq("user_id", token).execute()
+def get_quals(user_id): return supabase.table(QUALS_TBL_NAME).select("*").eq("user_id", user_id).execute()
 def insert_quals(payload): return supabase.table(QUALS_TBL_NAME).insert(payload).execute()
 def update_quals(payload): return supabase.table(QUALS_TBL_NAME).update(payload["update"]).eq("id", payload["id"]).execute()
 def delete_quals(payload): return supabase.table(QUALS_TBL_NAME).delete().eq("id", payload["id"]).execute()
 
+def get_role(): return supabase.table(TARGET_ROLE_NAME).select("*").execute()
+def insert_role(payload): return supabase.table(TARGET_ROLE_NAME).insert(payload).execute()
+def update_role(payload): return supabase.table(TARGET_ROLE_NAME).update(payload["update"]).eq("id", payload["id"]).execute()
+def delete_role(payload): return supabase.table(TARGET_ROLE_NAME).delete().eq("id", payload["id"]).execute()
 
 def discover_matching_jobs(payload: dict) -> dict:
     """Semantic Search: Vectorizes candidate profile and checks against Supabase."""

@@ -38,6 +38,14 @@ def logout():
     except Exception as e:
         raise AuthenticationError(e)
 
+@app.post("/name")
+def name(payload: Dict):
+    try:
+        service.name(payload)
+        return "Name Updated"
+    except Exception as e:
+        raise AuthenticationError(e)
+
 @app.get("/jobs")
 def get_jds():
     try:
@@ -98,6 +106,34 @@ def update_quals(payload: Dict):
 def delete_quals(payload: Dict):
     try:
         return service.delete_quals(payload)
+    except Exception as e:
+        raise SupabaseError(e)
+
+@app.get("/target_role")
+def get_role():
+    try:
+        return service.get_role()
+    except Exception as e:
+        raise SupabaseError(e)
+
+@app.post("/target_role")
+def insert_role(payload: Dict):
+    try:
+        return service.insert_role(payload)
+    except Exception as e:
+        raise SupabaseError(e)
+
+@app.patch("/target_role")
+def update_role(payload: Dict):
+    try:
+        return service.update_role(payload)
+    except Exception as e:
+        raise SupabaseError(e)
+
+@app.delete("/target_role")
+def delete_role(payload: Dict):
+    try:
+        return service.delete_role(payload)
     except Exception as e:
         raise SupabaseError(e)
 
