@@ -56,7 +56,7 @@ def orchestrate_career_path(payload: dict) -> dict:
         "roadmap": roadmap
     }
 
-
+def course_suggest(payload): return LLM_MODEL.course_suggest(payload["topic"])
 def get_jobs():
     headers = {
         "Accept": "application/json"

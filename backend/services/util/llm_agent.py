@@ -198,3 +198,20 @@ class DocumentGenerationAgent:
             return {"status": "success", "document_type": "persona_interview", "generated_document": response.choices[0].message.content}
         except Exception as e:
             return {"status": "error", "message": str(e)}
+
+    def course_suggest(self, topic):
+        system_prompt = f"""
+            Try to give me 3 reputable links to content regarding {topic}. Could be a link to a course on Udemy or Linkedin Learning.
+            Could be a well-made youtube video. Could also be a reputable article or academic paper. If you can't find 3 it's okay
+            what matters is that it's a reliable and safe source. The response should only by the links and the title together
+            seperated by a comma.
+        """
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-4o",
+                messages=[{"role": "system", "content": system_prompt}],
+                temperature=0.8
+            )
+            return {"status": "success", "document_type": "course_suggestions", "generated_document": response.choices[0].message.content}
+        except Exception as e:
+            return {"status": "error", "message": str(e)}

@@ -217,3 +217,10 @@ def persona_interview(payload: Dict):
         return service.persona_interview_agent(payload)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Persona Interview Error: {e}")
+
+@app.post("/course_suggest")
+def persona_interview(payload: Dict):
+    try:
+        return service.course_suggest(payload)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Course Suggest Error: {e}")
