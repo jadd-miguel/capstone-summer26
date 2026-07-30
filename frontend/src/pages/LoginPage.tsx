@@ -56,14 +56,16 @@ export default function LoginPage({ alert, setIsAuthenticated, userProfile, setU
 			
 			const profiles: Profile[] = []
 			for (let i = 1; i <= uniqueProfiles; i++) {
-				profiles[i] = new Profile("Role", [], [])
+				profiles[i] = new Profile("Role", [], [], [], [])
 			}
 
 			jd_response.data.map((element) => {
 				profiles[element.profile].jobDescriptions.push(element.job_description)
+				profiles[element.profile].jd_ids.push(element.id)
 			});
 			qualifications_response.data.map((element) => {
 				profiles[element.profile].qualifications.push(element.qualification)
+				profiles[element.profile].quals_ids.push(element.id)
 			});
 			console.log(profiles)
 

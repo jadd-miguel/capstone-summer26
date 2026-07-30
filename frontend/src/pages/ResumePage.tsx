@@ -6,11 +6,12 @@ import {
     Box,
     Typography,
     Paper,
-    CircularProgress, 
-    TextField        
+    CircularProgress,
+    TextField,
+    Stack
 } from "@mui/material";
 import * as api from '../util/api.ts'
-import {UserProfile, Profile} from '../util/Profiles.ts'
+import { UserProfile, Profile } from '../util/Profiles.ts'
 
 interface ResumeProps {
     alert: (message: string) => void;
@@ -21,18 +22,42 @@ export default function ResumePage({ alert, userProfile }: ResumeProps): React.J
     const [loading, setLoading] = useState(false);
     const [resumeGenerated, setResumeGenerated] = useState('');
     const [coverLetterGenerated, setCoverLetterGenerated] = useState('');
-    console.log(userProfile.name)
+    //console.log(userProfile.name)
     // Dynamic State
     const [candidateName, setCandidateName] = useState(userProfile.name);
     const [jobTitle, setJobTitle] = useState(userProfile.getTargetRole());
+
+    async function copyToClipboard(text: string): Promise<void> {
+        try {
+            await navigator.clipboard.writeText(text);
+            alert('Text successfully copied to clipboard');
+        } catch (error) {
+            alert('Failed to copy text: ' + error);
+        }
+    }
+
+    function downloadMarkdown(filename: string, content: string): void {
+        const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename.endsWith('.md') ? filename : `${filename}.md`;
+
+        document.body.appendChild(link);
+        link.click();
+
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
 
     const handleResumeCall = async (): Promise<void> => {
         setLoading(true);
         try {
             const payload = {
                 candidate_name: candidateName,
-                candidate_skills: ["Python", "SQL", "Pandas", "Jira", "Tableau"],
-                experience_history: ["Sales Associate", "Teacher", "Automotive Mechanic"],
+                candidate_skills: userProfile.getQualifications(),
+                experience_history: userProfile.getJobDescriptions(),
                 target_job_title: jobTitle,
             };
             const response = await api.agent.generate_resume(payload);
@@ -76,6 +101,10 @@ export default function ResumePage({ alert, userProfile }: ResumeProps): React.J
                     <Typography variant="h6" gutterBottom>Live Preview</Typography>
                     <ReactMarkdown>{resumeGenerated || "Your professional resume will appear here..."}</ReactMarkdown>
                 </Paper>
+                <Stack direction="row" spacing={2} sx={{ marginTop: "20px" }}>
+                    <Button onClick={() => { copyToClipboard(resumeGenerated) }} variant="contained" color="primary">Copy to clipboard</Button>
+                    <Button onClick={() => { downloadMarkdown("Resume.md", resumeGenerated) }} variant="contained" color="primary">Download Markdown</Button>
+                </Stack>
             </Grid>
         </Grid>
     );

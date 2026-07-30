@@ -64,6 +64,15 @@ export const put = async (url: string, body: any, responseFormat: ResponseFormat
 	return handleResponse(response, responseFormat);
 };
 
+export const patch = async (url: string, body: any, responseFormat: ResponseFormat = "json"): Promise<any> => {
+	let response = await fetch(url, {
+		method: "PATCH",
+		headers,
+		body: JSON.stringify(body),
+	});
+	return handleResponse(response, responseFormat);
+};
+
 //Bundle of api calls to handle login/signup/logout
 const auth = {
 	login: (body: any) => post(server("/login"), body),
@@ -80,6 +89,9 @@ const agent = {
 const profiles = {
 	get_jd: (body: any) => get(server("/jd"), body),
 	get_quals: (body: any) => get(server("/quals"), body),
+	patch_jd: (body: any) => patch(server("/jd"), body),
+	patch_quals: (body: any) => patch(server("/quals"), body),
+	post_name: (body: any) => post(server("/name"), body),
 }
 
 export {

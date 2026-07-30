@@ -62,7 +62,9 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 				return new Profile(
 					profile.targetRole,
 					arrayKey === 'jobDescriptions' ? targetArray : profile.jobDescriptions,
-					arrayKey === 'qualifications' ? targetArray : profile.qualifications
+					arrayKey === 'qualifications' ? targetArray : profile.qualifications,
+					profile.jd_ids,
+					profile.quals_ids
 				);
 			});
 
@@ -79,7 +81,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 			const updatedProfiles = prevUser.profiles.map((profile, idx) => {
 				// 2. Only change the one currently active on screen
 				if (idx === prevUser.selectedProfileIndex) {
-					return new Profile(newRole, profile.jobDescriptions, profile.qualifications);
+					return new Profile(newRole, profile.jobDescriptions, profile.qualifications, profile.jd_ids, profile.quals_ids);
 				}
 				return profile;
 			});
@@ -102,7 +104,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 
 	const handleNewProfile = () => {
 		setUserProfile((prevUser) => {
-			const newProfileItem = new Profile("New Role", [""], [""]);
+			const newProfileItem = new Profile("New Role", [""], [""], [""], [""]);
 			const updatedProfilesList = [...prevUser.profiles, newProfileItem];
 			const updatedUser = new UserProfile(prevUser.name, updatedProfilesList);
 			updatedUser.selectedProfileIndex = updatedProfilesList.length - 1;
@@ -131,6 +133,35 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 		});
 	};
 
+	const handleUpdate = async (): Promise<void> => {
+		try {
+			for (let i = 1; i<userProfile.profiles.length; i++) {
+				console.log(userProfile.profiles[i].jobDescriptions)
+				for (let j = 0; j < userProfile.profiles[i].jobDescriptions.length; j++) {
+					const response = await api.profiles.patch_jd({ id: userProfile.profiles[i].jd_ids[j], update: { job_description: userProfile.profiles[i].jobDescriptions[j] } })
+					console.log(response)
+				}
+
+				for (let j = 0; j < userProfile.profiles[i].qualifications.length; j++) {
+					const response = await api.profiles.patch_quals({ id: userProfile.profiles[i].quals_ids[j], update: { job_description: userProfile.profiles[i].qualifications[j] } })
+					console.log(response)
+				}
+			}
+
+
+			//for (let i = 0; i < userProfile.getQualifications().length; i++) {
+			//	const response = await api.profiles.patch_quals({ id: userProfile.getQualsIds()[i], update: { job_description: userProfile.getQualifications()[i] } })
+			//	console.log(response)
+			//}
+
+
+		}
+		catch (err) {
+			console.error(err);
+			alert(String(err))
+		}
+
+	}
 
 	return (
 		<>
@@ -255,7 +286,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 						<Button variant="contained" color="secondary" onClick={handleDeleteProfile}>Delete Profile</Button>
 					</Stack>
 					<Stack direction="row" spacing={2} sx={{ marginTop: "20px" }}>
-						<Button variant="contained" color="primary">Update</Button>
+						<Button variant="contained" color="primary" onClick={handleUpdate}>Update</Button>
 					</Stack>
 
 
