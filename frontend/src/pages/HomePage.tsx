@@ -17,7 +17,7 @@ export default function HomePage({ alert }: any) {
             
             <Grid container spacing={4}>
                 {/* Jobs Section */}
-                <Grid>
+                <Grid size={6}>
                     <Paper elevation={2} sx={{ p: 4, borderRadius: 3, height: '100%' }}>
                         <Typography variant="h6" sx={{ mb: 3, fontWeight: 700, color: '#1a237e' }}>
                             Market Intelligence
@@ -32,7 +32,7 @@ export default function HomePage({ alert }: any) {
                 </Grid>
 
                 {/* Applications Section */}
-                <Grid>
+                <Grid size={6}>
                     <Paper elevation={2} sx={{ p: 4, borderRadius: 3, height: '100%' }}>
                         <Typography variant="h6" sx={{ mb: 3, fontWeight: 700, color: '#1a237e' }}>
                             Application Suite
@@ -40,8 +40,11 @@ export default function HomePage({ alert }: any) {
                         <Button fullWidth variant="contained" onClick={() => navigate("/home")} sx={{ mb: 2, py: 1.5 }}>
                             Jobs Applied
                         </Button>
-                        <Button fullWidth variant="outlined" onClick={() => navigate("/resume")} sx={{ py: 1.5 }}>
+                        <Button fullWidth variant="outlined" onClick={() => navigate("/resume")} sx={{ mb: 2, py: 1.5 }}>
                             Resume Generator
+                        </Button>
+                        <Button fullWidth variant="outlined" onClick={() => navigate("/coverLetter")} sx={{ py: 1.5 }}>
+                            Cover Letter
                         </Button>
                     </Paper>
                 </Grid>
