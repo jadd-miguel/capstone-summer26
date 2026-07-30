@@ -18,11 +18,13 @@ export class UserProfile {
     name: string;
     selectedProfileIndex: number = 1;
     profiles: Profile[]
+    userId: string;
 
 
-    constructor(name: string, profiles:Profile[]) {
+    constructor(name: string, userId: string, profiles:Profile[]) {
         this.name = name;
         this.profiles = profiles
+        this.userId = userId
     }
 
     getTargetRole(){

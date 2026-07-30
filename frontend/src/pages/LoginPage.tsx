@@ -43,9 +43,9 @@ export default function LoginPage({ alert, setIsAuthenticated, userProfile, setU
 			const jd_response = await api.profiles.get_jd(response.user.id)
 			const qualifications_response = await api.profiles.get_quals(response.user.id)
 
-			//console.log(response)
-			console.log(jd_response)
-			console.log(qualifications_response)
+			console.log(response)
+			//console.log(jd_response)
+			//console.log(qualifications_response)
 
 			const quals: string[] = []
 			qualifications_response.data.forEach((element) => { quals.push(element.profile) });
@@ -53,7 +53,7 @@ export default function LoginPage({ alert, setIsAuthenticated, userProfile, setU
 			jd_response.data.forEach((element) => { jds.push(element.profile) });
 			const uniqueProfiles: number = Math.max(new Set(jds).size, new Set(quals).size)
 
-			
+
 			const profiles: Profile[] = []
 			for (let i = 1; i <= uniqueProfiles; i++) {
 				profiles[i] = new Profile("Role", [], [], [], [])
@@ -67,10 +67,10 @@ export default function LoginPage({ alert, setIsAuthenticated, userProfile, setU
 				profiles[element.profile].qualifications.push(element.qualification)
 				profiles[element.profile].quals_ids.push(element.id)
 			});
-			console.log(profiles)
 
 
-			setUserProfile(new UserProfile(response.user.user_metadata.display_name, profiles))
+
+			setUserProfile(new UserProfile(response.user.user_metadata.display_name, response.user.id, profiles))
 
 			alert("Login successful")
 			setIsAuthenticated(true);
