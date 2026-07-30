@@ -2,8 +2,7 @@
 
 [![Server Check](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_check.yml/badge.svg?branch=main)](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_check.yml)
 
-<!-- dont deploy for now, idk what changes happened
-[![Server Deployed](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_deploy.yml/badge.svg?branch=main)](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_deploy.yml) -->
+[![Server Deployed](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_deploy.yml/badge.svg?branch=main)](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_deploy.yml)
 
 NaviSkill AI is an agentic suite of personalised, employment-oriented
 learning and upskilling tools designed to optimise dynamic career
