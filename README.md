@@ -2,7 +2,8 @@
 
 [![Server Check](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_check.yml/badge.svg?branch=main)](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_check.yml)
 
-[![Server Deployed](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_deploy.yml/badge.svg?branch=main)](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_deploy.yml)
+<!-- dont deploy for now, idk what changes happened
+[![Server Deployed](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_deploy.yml/badge.svg?branch=main)](https://github.com/jadd-miguel/capstone-summer26/actions/workflows/server_deploy.yml) -->
 
 NaviSkill AI is an agentic suite of personalised, employment-oriented
 learning and upskilling tools designed to optimise dynamic career
@@ -10,11 +11,11 @@ roadmapping!
 
 ## Installation
 
-**FRONTEND**
-[Website URL ↗](https://http://localhost:5173/.com/)
+**FRONTEND**<br>
+[Website URL ↗](http://localhost:5173/)
 
 **BACKEND**<br>
-[Server URL ↗](https://capstone-summer26.onrender.com/)
+[Production URL ↗](https://capstone-summer26.onrender.com/)
 
 *Local Dev*
 1. Make sure you have [Python 3.10 and PIP ↗](https://www.python.org/downloads/release/python-31020/).

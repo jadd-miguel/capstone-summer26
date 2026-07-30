@@ -19,7 +19,8 @@ export default function SignupPage({ alert }: SignupProps): React.JSX.Element {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [display_name, setDisplayName] = useState("");
+    //const [error, setError] = useState("");
     const navigate = useNavigate();
 
 
@@ -28,7 +29,7 @@ export default function SignupPage({ alert }: SignupProps): React.JSX.Element {
     const handleSignup = async (): Promise<void> => {
 
         try {
-            const payload = { email, password };
+            const payload = { email, password, options:{data:{display_name}} };
             const response = await api.auth.signup(payload);
 
             console.log("Signup successful:", response);
@@ -48,10 +49,14 @@ export default function SignupPage({ alert }: SignupProps): React.JSX.Element {
         <Paper elevation={4} sx={{ marginTop: "1em" }}>
             <CardHeader title="Sign Up"></CardHeader>
             <CardContent>
+                <TextField fullWidth label="Display Name" sx={{ marginBottom: "1em" }}
+                    value={display_name}
+                    onChange={e => { setDisplayName(e.target.value) }}
+                />
+
                 <TextField fullWidth label="Email" sx={{ marginBottom: "1em" }}
                     value={email}
                     onChange={e => { setEmail(e.target.value) }}
-
                 />
                 <TextField fullWidth label="Password"
                     value={password}

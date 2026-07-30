@@ -11,7 +11,8 @@ export function uploadJob(jobDesc: string, userId: string) {
     )
 }
 
-export function getJobsForProfile(profile) {
-    return api.get(api.server("/jd"))
+export function getJobsForProfile(profile = null) {
+    let userId = "0"
+    return api.get(`${api.server("/jd")}`, userId)
 }
 
