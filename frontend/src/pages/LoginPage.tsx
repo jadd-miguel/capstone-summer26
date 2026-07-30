@@ -40,12 +40,12 @@ export default function LoginPage({ alert, setIsAuthenticated }: LoginProps): Re
 			
 			console.log("Login successful:", response);
 			//Add code to fetch user data and put it in userProfile
-			let id :string = response.user.id
+			//let id :string = response.user.id
 
-			const profile_payload = { user_id : "f4107247-4086-40c7-80ef-4361a54535f3" }
-			const profile_response = await api.profiles.get_jd(profile_payload)
+			//const profile_payload = { user_id : "f4107247-4086-40c7-80ef-4361a54535f3" }
+			//const profile_response = await api.profiles.get_jd(profile_payload)
 
-			console.log(profile_response)
+			//console.log(profile_response)
 
 			alert("Login successful")
 			setIsAuthenticated(true);
