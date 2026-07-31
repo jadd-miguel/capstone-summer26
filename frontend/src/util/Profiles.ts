@@ -16,7 +16,7 @@ export class Profile {
 
 export class UserProfile {
     name: string;
-    selectedProfileIndex: number = 1;
+    selectedProfileIndex: number = 0;
     profiles: Profile[]
     userId: string;
 

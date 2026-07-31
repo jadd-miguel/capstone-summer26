@@ -30,6 +30,16 @@ export default function LoginPage({ alert, setIsAuthenticated, userProfile, setU
 	const handleLogin = async (): Promise<void> => {
 
 		try {
+			interface JobDescriptionItem {
+				id: string;
+				profile: number;
+				job_description: string;
+			}
+			interface QualificationItem {
+				id: string;
+				profile: number;
+				qualification: string;
+			}
 			const payload = { email, password };
 			const response = await api.auth.login(payload);
 
@@ -43,27 +53,29 @@ export default function LoginPage({ alert, setIsAuthenticated, userProfile, setU
 			const jd_response = await api.profiles.get_jd(response.user.id)
 			const qualifications_response = await api.profiles.get_quals(response.user.id)
 
-			console.log(response)
-			//console.log(jd_response)
-			//console.log(qualifications_response)
-
+			//console.log(response)
+			console.log(jd_response)
+			console.log(qualifications_response)
+			
 			const quals: string[] = []
 			qualifications_response.data.forEach((element) => { quals.push(element.profile) });
+
 			const jds: string[] = []
 			jd_response.data.forEach((element) => { jds.push(element.profile) });
+
 			const uniqueProfiles: number = Math.max(new Set(jds).size, new Set(quals).size)
-
-
 			const profiles: Profile[] = []
-			for (let i = 1; i <= uniqueProfiles; i++) {
+			for (let i = 0; i < uniqueProfiles; i++) {
 				profiles[i] = new Profile("Role", [], [], [], [])
 			}
 
-			jd_response.data.map((element) => {
+			const jdData: JobDescriptionItem[] = jd_response.data 
+			jdData.map((element) => {
 				profiles[element.profile].jobDescriptions.push(element.job_description)
 				profiles[element.profile].jd_ids.push(element.id)
 			});
-			qualifications_response.data.map((element) => {
+			const qualData: QualificationItem[] = qualifications_response.data
+			qualData.map((element) => {
 				profiles[element.profile].qualifications.push(element.qualification)
 				profiles[element.profile].quals_ids.push(element.id)
 			});
@@ -71,7 +83,7 @@ export default function LoginPage({ alert, setIsAuthenticated, userProfile, setU
 
 
 			setUserProfile(new UserProfile(response.user.user_metadata.display_name, response.user.id, profiles))
-
+			console.log(userProfile)
 			alert("Login successful")
 			setIsAuthenticated(true);
 			navigate('/home');
@@ -83,6 +95,10 @@ export default function LoginPage({ alert, setIsAuthenticated, userProfile, setU
 
 
 	};
+
+	const loadProfile  = async (): Promise<void> => {
+		
+	}
 
 	return (
 		<Paper elevation={4} sx={{ marginTop: "1em" }}>

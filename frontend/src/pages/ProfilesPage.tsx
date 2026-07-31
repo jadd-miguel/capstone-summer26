@@ -37,8 +37,8 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 	const [inputJdValue, setJdInputValue] = useState<string>('');
 	const [inputQualValue, setQualInputValue] = useState<string>('');
 
-	const handleOpenJd = (): void => setJdPopupOpen(true);
-	const handleOpenQual = (): void => setQualPopupOpen(true);
+	//const handleOpenJd = (): void => setJdPopupOpen(true);
+	//const handleOpenQual = (): void => setQualPopupOpen(true);
 
 	const handleClose = (): void => {
 		setJdPopupOpen(false);
@@ -66,8 +66,8 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 	const handleSubmitQual = async (): Promise<void> => {
 		console.log("Submitted Value:", inputQualValue);
 		try {
-			const response = await api.profiles.put_qual({ user_id: userProfile.userId, qualification: inputJdValue, profile: userProfile.selectedProfileIndex })
-			updateProfileArray("jobDescriptions", "add", userProfile.selectedProfileIndex, inputJdValue)
+			const response = await api.profiles.put_qual({ user_id: userProfile.userId, qualification: inputQualValue, profile: userProfile.selectedProfileIndex })
+			updateProfileArray("jobDescriptions", "add", userProfile.selectedProfileIndex, inputQualValue)
 			console.log(response)
 			reloadUserProfile()
 		}
@@ -154,8 +154,9 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 	};
 
 	const handleNewProfile = () => {
+		console.log(userProfile)
 		setUserProfile((prevUser) => {
-			const newProfileItem = new Profile("New Role", [""], [""], [""], [""]);
+			const newProfileItem = new Profile("New Role", [], [], [], []);
 			const updatedProfilesList = [...prevUser.profiles, newProfileItem];
 			const updatedUser = new UserProfile(prevUser.name, prevUser.userId, updatedProfilesList);
 			updatedUser.selectedProfileIndex = updatedProfilesList.length - 1;
@@ -218,7 +219,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 
 
 		const profiles: Profile[] = []
-		for (let i = 1; i <= uniqueProfiles; i++) {
+		for (let i = 0; i < uniqueProfiles; i++) {
 			profiles[i] = new Profile("Role", [], [], [], [])
 		}
 
