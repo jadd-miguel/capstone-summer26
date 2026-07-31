@@ -1,0 +1,1 @@
+export let userId: string | undefined = undefined;
