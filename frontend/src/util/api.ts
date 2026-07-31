@@ -91,8 +91,9 @@ const profiles = {
 	get_quals: (body: any) => get(server("/quals"), body),
 	patch_jd: (body: any) => patch(server("/jd"), body),
 	patch_quals: (body: any) => patch(server("/quals"), body),
-	put_jd: (body: any) => post(server("/jd"), body),
-	put_qual: (body: any) => post(server("/quals"), body)
+	post_jd: (body: any) => post(server("/jd"), body),
+	post_qual: (body: any) => post(server("/quals"), body),
+	post_name: (body: any) => post(server("/name"), body),
 }
 
 export {
