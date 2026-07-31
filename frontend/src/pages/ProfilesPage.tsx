@@ -51,7 +51,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 	const handleSubmitJd = async (): Promise<void> => {
 		console.log("Submitted Value:", inputJdValue);
 		try {
-			const response = await api.profiles.put_jd({ user_id: userProfile.userId, job_description: inputJdValue, profile: userProfile.selectedProfileIndex })
+			const response = await api.profiles.post_jd({ user_id: userProfile.userId, job_description: inputJdValue, profile: userProfile.selectedProfileIndex })
 			updateProfileArray("jobDescriptions", "add", userProfile.selectedProfileIndex, inputJdValue)
 			console.log(response)
 			reloadUserProfile()
@@ -66,7 +66,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 	const handleSubmitQual = async (): Promise<void> => {
 		console.log("Submitted Value:", inputQualValue);
 		try {
-			const response = await api.profiles.put_qual({ user_id: userProfile.userId, qualification: inputQualValue, profile: userProfile.selectedProfileIndex })
+			const response = await api.profiles.post_qual({ user_id: userProfile.userId, qualification: inputQualValue, profile: userProfile.selectedProfileIndex })
 			updateProfileArray("jobDescriptions", "add", userProfile.selectedProfileIndex, inputQualValue)
 			console.log(response)
 			reloadUserProfile()
@@ -187,6 +187,10 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 
 	const handleUpdate = async (): Promise<void> => {
 		try {
+
+			//const name_response = api.profiles.post_name({id: userProfile.userId, update:{name:"New Name Here"}})
+			//console.log(name_response)
+
 			for (let i = 1; i < userProfile.profiles.length; i++) {
 				console.log(userProfile.profiles[i].jobDescriptions)
 				for (let j = 0; j < userProfile.profiles[i].jobDescriptions.length; j++) {
