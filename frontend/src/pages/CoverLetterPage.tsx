@@ -3,7 +3,6 @@ import ReactMarkdown from 'react-markdown';
 import {
     Button,
     Grid,
-    Box,
     Typography,
     Paper,
     CircularProgress,
@@ -11,21 +10,19 @@ import {
     Stack
 } from "@mui/material";
 import * as api from '../util/api.ts'
-import { UserProfile, Profile } from '../util/Profiles.ts'
+import { UserProfile } from '../util/Profiles.ts'
 
 interface ResumeProps {
     alert: (message: string) => void;
     userProfile: UserProfile;
 }
 
-export default function ResumePage({ alert, userProfile }: ResumeProps): React.JSX.Element {
+export default function CoverLetterPage({ alert, userProfile }: ResumeProps): React.JSX.Element {
     const [loading, setLoading] = useState(false);
-    const [resumeGenerated, setResumeGenerated] = useState('');
     const [coverLetterGenerated, setCoverLetterGenerated] = useState('');
-    //console.log(userProfile.name)
-    // Dynamic State
-    const [candidateName, setCandidateName] = useState(userProfile.name);
-    const [jobTitle, setJobTitle] = useState(userProfile.getTargetRole());
+
+    const [companyName, setCompanyName] = useState("STEAM"); // WORKAROUND TEMP, get from profile after
+    const [jobTitle, setJobTitle] = useState("Dancer"); // WORKAROUND TEMP
 
     async function copyToClipboard(text: string): Promise<void> {
         try {
@@ -55,14 +52,14 @@ export default function ResumePage({ alert, userProfile }: ResumeProps): React.J
         setLoading(true);
         try {
             const payload = {
-                candidate_name: candidateName,
-                candidate_skills: userProfile.getQualifications(),
-                experience_history: userProfile.getJobDescriptions(),
-                target_job_title: jobTitle,
+                candidate_skills: ["Python", "Unity"],
+                // candidate_skills: userProfile.getQualifications(), WORKAROUND TEMP
+                company_name: companyName,
+                job_title: jobTitle,
             };
-            const response = await api.agent.generate_resume(payload);
-            setResumeGenerated(response.generated_document);
-            alert("Resume generation complete.");
+            const response = await api.agent.generate_cover_letter(payload);
+            setCoverLetterGenerated(response.generated_document);
+            alert("Cover Letter generation complete.");
         } catch (err) {
             console.error(err);
             alert("Error generating resume: " + String(err));
@@ -87,10 +84,10 @@ export default function ResumePage({ alert, userProfile }: ResumeProps): React.J
             <Grid size={4}>
                 <Paper sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>
                     <Typography variant="h6" gutterBottom>Profile Details</Typography>
-                    <TextField fullWidth label="Name" value={candidateName} onChange={(e) => setCandidateName(e.target.value)} sx={{ mb: 2 }} />
+                    <TextField fullWidth label="CompanyName" value={companyName} onChange={(e) => setCompanyName(e.target.value)} sx={{ mb: 2 }} />
                     <TextField fullWidth label="Target Role" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} sx={{ mb: 2 }} />
                     <Button fullWidth variant="contained" onClick={handleResumeCall} disabled={loading} size="large" sx={{ bgcolor: '#1a237e' }}>
-                        {loading ? <CircularProgress size={24} color="inherit" /> : "BUILD RESUME"}
+                        {loading ? <CircularProgress size={24} color="inherit" /> : "BUILD COVER LETTER"}
                     </Button>
                 </Paper>
             </Grid>
@@ -99,11 +96,11 @@ export default function ResumePage({ alert, userProfile }: ResumeProps): React.J
             <Grid size={8}>
                 <Paper sx={{ p: 3, height: '75vh', overflowY: 'auto', borderRadius: 2, boxShadow: 3 }}>
                     <Typography variant="h6" gutterBottom>Live Preview</Typography>
-                    <ReactMarkdown>{resumeGenerated || "Your professional resume will appear here..."}</ReactMarkdown>
+                    <ReactMarkdown>{coverLetterGenerated || "Your professional cover Letter will appear here..."}</ReactMarkdown>
                 </Paper>
                 <Stack direction="row" spacing={2} sx={{ marginTop: "20px" }}>
-                    <Button onClick={() => { copyToClipboard(resumeGenerated) }} variant="contained" color="primary">Copy to clipboard</Button>
-                    <Button onClick={() => { downloadMarkdown("Resume.md", resumeGenerated) }} variant="contained" color="primary">Download Markdown</Button>
+                    <Button onClick={() => { copyToClipboard(coverLetterGenerated) }} variant="contained" color="primary">Copy to clipboard</Button>
+                    <Button onClick={() => { downloadMarkdown("CoverLetter.md", coverLetterGenerated) }} variant="contained" color="primary">Download Markdown</Button>
                 </Stack>
             </Grid>
         </Grid>

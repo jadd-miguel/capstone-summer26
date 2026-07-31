@@ -64,26 +64,39 @@ export const put = async (url: string, body: any, responseFormat: ResponseFormat
 	return handleResponse(response, responseFormat);
 };
 
+export const patch = async (url: string, body: any, responseFormat: ResponseFormat = "json"): Promise<any> => {
+	let response = await fetch(url, {
+		method: "PATCH",
+		headers,
+		body: JSON.stringify(body),
+	});
+	return handleResponse(response, responseFormat);
+};
+
 //Bundle of api calls to handle login/signup/logout
-export const auth = {
+const auth = {
 	login: (body: any) => post(server("/login"), body),
 	signup: (body: any) => post(server("/create_user"), body),
 	logout: () => post(server("/logout"), null),
 }
 
 //Bundle of api calls for model
-export const agent = {
+const agent = {
 	generate_cover_letter: (body: any) => post(server("/cover_letter_agent"), body),
 	generate_resume: (body: any) => post(server("/resume_agent"), body),
 }
 
-export const profiles = {
+const profiles = {
 	get_jd: (body: any) => get(server("/jd"), body),
 	get_quals: (body: any) => get(server("/quals"), body),
+	patch_jd: (body: any) => patch(server("/jd"), body),
+	patch_quals: (body: any) => patch(server("/quals"), body),
+	put_jd: (body: any) => post(server("/jd"), body),
+	put_qual: (body: any) => post(server("/quals"), body)
 }
 
-//export {
-//	auth,
-//	agent,
-//	profiles
-//}
+export {
+	auth,
+	agent,
+	profiles
+}

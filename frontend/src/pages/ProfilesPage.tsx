@@ -11,6 +11,10 @@ import {
 	Typography,
 	ButtonGroup,
 	IconButton,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogActions,
 } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import * as api from '../util/api.ts'
@@ -27,10 +31,57 @@ interface ProfilesProps {
 {/* Log in page */ }
 export default function ProfilesPage({ alert, userProfile, setUserProfile }: ProfilesProps): React.JSX.Element {
 
+	const [openJdPopup, setJdPopupOpen] = useState<boolean>(false);
+	const [openQualPopup, setQualPopupOpen] = useState<boolean>(false);
+
+	const [inputJdValue, setJdInputValue] = useState<string>('');
+	const [inputQualValue, setQualInputValue] = useState<string>('');
+
+	//const handleOpenJd = (): void => setJdPopupOpen(true);
+	//const handleOpenQual = (): void => setQualPopupOpen(true);
+
+	const handleClose = (): void => {
+		setJdPopupOpen(false);
+		setQualPopupOpen(false)
+
+		setJdInputValue('');
+		setQualInputValue('');
+	};
+
+	const handleSubmitJd = async (): Promise<void> => {
+		console.log("Submitted Value:", inputJdValue);
+		try {
+			const response = await api.profiles.put_jd({ user_id: userProfile.userId, job_description: inputJdValue, profile: userProfile.selectedProfileIndex })
+			updateProfileArray("jobDescriptions", "add", userProfile.selectedProfileIndex, inputJdValue)
+			console.log(response)
+			reloadUserProfile()
+		}
+		catch (err) {
+			alert(String(err))
+		}
+		handleClose();
+		console.log(userProfile)
+	};
+
+	const handleSubmitQual = async (): Promise<void> => {
+		console.log("Submitted Value:", inputQualValue);
+		try {
+			const response = await api.profiles.put_qual({ user_id: userProfile.userId, qualification: inputQualValue, profile: userProfile.selectedProfileIndex })
+			updateProfileArray("jobDescriptions", "add", userProfile.selectedProfileIndex, inputQualValue)
+			console.log(response)
+			reloadUserProfile()
+		}
+		catch (err) {
+			alert(String(err))
+		}
+		handleClose();
+	};
+
+
 	const handleSelectProfile = (index: number) => {
 		setUserProfile((prevUser) => {
 			// Create a new reference to trigger a React re-render
-			const updatedUser = new UserProfile(prevUser.name, prevUser.profiles);
+			const updatedUser = new UserProfile(prevUser.name, prevUser.userId, prevUser.profiles);
 			updatedUser.selectedProfileIndex = index; // Switch the active index
 			return updatedUser;
 		});
@@ -62,12 +113,14 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 				return new Profile(
 					profile.targetRole,
 					arrayKey === 'jobDescriptions' ? targetArray : profile.jobDescriptions,
-					arrayKey === 'qualifications' ? targetArray : profile.qualifications
+					arrayKey === 'qualifications' ? targetArray : profile.qualifications,
+					profile.jd_ids,
+					profile.quals_ids
 				);
 			});
 
 			// 5. Return a brand new UserProfile instance to break object identity and trigger render
-			const updatedUser = new UserProfile(prevUser.name, updatedProfiles);
+			const updatedUser = new UserProfile(prevUser.name, prevUser.userId, updatedProfiles);
 			updatedUser.selectedProfileIndex = prevUser.selectedProfileIndex; // Keep the active tab index
 			return updatedUser;
 		});
@@ -79,13 +132,13 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 			const updatedProfiles = prevUser.profiles.map((profile, idx) => {
 				// 2. Only change the one currently active on screen
 				if (idx === prevUser.selectedProfileIndex) {
-					return new Profile(newRole, profile.jobDescriptions, profile.qualifications);
+					return new Profile(newRole, profile.jobDescriptions, profile.qualifications, profile.jd_ids, profile.quals_ids);
 				}
 				return profile;
 			});
 
 			// 3. Return a brand new UserProfile instance to trigger a re-render
-			const updatedUser = new UserProfile(prevUser.name, updatedProfiles);
+			const updatedUser = new UserProfile(prevUser.name, prevUser.userId, updatedProfiles);
 			updatedUser.selectedProfileIndex = prevUser.selectedProfileIndex; // Maintain the active tab
 			return updatedUser;
 		});
@@ -93,7 +146,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 
 	const handleNameChange = (newName: string) => {
 		setUserProfile((prevUser) => {
-			const updatedUser = new UserProfile(newName, prevUser.profiles)
+			const updatedUser = new UserProfile(newName, prevUser.userId, prevUser.profiles)
 			updatedUser.selectedProfileIndex = prevUser.selectedProfileIndex;
 
 			return updatedUser
@@ -101,10 +154,11 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 	};
 
 	const handleNewProfile = () => {
+		console.log(userProfile)
 		setUserProfile((prevUser) => {
-			const newProfileItem = new Profile("New Role", [""], [""]);
+			const newProfileItem = new Profile("New Role", [], [], [], []);
 			const updatedProfilesList = [...prevUser.profiles, newProfileItem];
-			const updatedUser = new UserProfile(prevUser.name, updatedProfilesList);
+			const updatedUser = new UserProfile(prevUser.name, prevUser.userId, updatedProfilesList);
 			updatedUser.selectedProfileIndex = updatedProfilesList.length - 1;
 
 			return updatedUser;
@@ -123,7 +177,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 				(_, idx) => idx !== prevUser.selectedProfileIndex
 			);
 
-			const updatedUser = new UserProfile(prevUser.name, updatedProfiles);
+			const updatedUser = new UserProfile(prevUser.name, prevUser.userId, updatedProfiles);
 
 			// Reset selected index back to 0 safely so it doesn't point to an out-of-bounds index
 			updatedUser.selectedProfileIndex = 0;
@@ -131,6 +185,55 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 		});
 	};
 
+	const handleUpdate = async (): Promise<void> => {
+		try {
+			for (let i = 1; i < userProfile.profiles.length; i++) {
+				console.log(userProfile.profiles[i].jobDescriptions)
+				for (let j = 0; j < userProfile.profiles[i].jobDescriptions.length; j++) {
+					const response = await api.profiles.patch_jd({ id: userProfile.profiles[i].jd_ids[j], update: { job_description: userProfile.profiles[i].jobDescriptions[j] } })
+					console.log(response)
+				}
+
+				for (let j = 0; j < userProfile.profiles[i].qualifications.length; j++) {
+					const response = await api.profiles.patch_quals({ id: userProfile.profiles[i].quals_ids[j], update: { qualification: userProfile.profiles[i].qualifications[j] } })
+					console.log(response)
+				}
+			}
+			console.log(userProfile)
+		}
+		catch (err) {
+			console.error(err);
+			alert(String(err))
+		}
+
+	}
+
+	const reloadUserProfile = async (): Promise<void> => {
+		const jd_response = await api.profiles.get_jd(userProfile.userId)
+		const qualifications_response = await api.profiles.get_quals(userProfile.userId)
+		const quals: string[] = []
+		qualifications_response.data.forEach((element) => { quals.push(element.profile) });
+		const jds: string[] = []
+		jd_response.data.forEach((element) => { jds.push(element.profile) });
+		const uniqueProfiles: number = Math.max(new Set(jds).size, new Set(quals).size)
+
+
+		const profiles: Profile[] = []
+		for (let i = 0; i < uniqueProfiles; i++) {
+			profiles[i] = new Profile("Role", [], [], [], [])
+		}
+
+		jd_response.data.map((element) => {
+			profiles[element.profile].jobDescriptions.push(element.job_description)
+			profiles[element.profile].jd_ids.push(element.id)
+		});
+		qualifications_response.data.map((element) => {
+			profiles[element.profile].qualifications.push(element.qualification)
+			profiles[element.profile].quals_ids.push(element.id)
+		});
+
+		setUserProfile(new UserProfile(userProfile.name, userProfile.userId, profiles))
+	}
 
 	return (
 		<>
@@ -206,7 +309,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 							</Stack>
 							<Button
 								variant="outlined"
-								onClick={() => updateProfileArray('jobDescriptions', 'add')}
+								onClick={() => setJdPopupOpen(true)}
 								sx={{ marginTop: "1em" }}
 							>
 								+ Add Description
@@ -242,7 +345,7 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 							<Button
 								variant="outlined"
 								color="primary"
-								onClick={() => updateProfileArray('qualifications', 'add')}
+								onClick={() => setQualPopupOpen(true)}
 								sx={{ marginTop: "1em" }}
 							>
 								+ Add Qualification
@@ -255,12 +358,66 @@ export default function ProfilesPage({ alert, userProfile, setUserProfile }: Pro
 						<Button variant="contained" color="secondary" onClick={handleDeleteProfile}>Delete Profile</Button>
 					</Stack>
 					<Stack direction="row" spacing={2} sx={{ marginTop: "20px" }}>
-						<Button variant="contained" color="primary">Update</Button>
+						<Button variant="contained" color="primary" onClick={handleUpdate}>Update</Button>
 					</Stack>
 
 
 				</CardContent>
 			</Paper >
+
+
+			<Dialog open={openJdPopup} onClose={handleClose} fullWidth maxWidth="xs">
+				<DialogTitle>Adding</DialogTitle>
+
+				<DialogContent>
+					<TextField
+						autoFocus
+						margin="dense"
+						label="Description"
+						type="text"
+						fullWidth
+						variant="standard"
+						value={inputJdValue}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setJdInputValue(e.target.value)}
+					/>
+				</DialogContent>
+
+				<DialogActions>
+					<Button onClick={handleClose} color="inherit">
+						Cancel
+					</Button>
+					<Button onClick={handleSubmitJd} variant="contained" color="primary">
+						Submit
+					</Button>
+				</DialogActions>
+			</Dialog>
+
+			<Dialog open={openQualPopup} onClose={handleClose} fullWidth maxWidth="xs">
+				<DialogTitle>Adding</DialogTitle>
+
+				<DialogContent>
+					<TextField
+						autoFocus
+						margin="dense"
+						label="Qualification"
+						type="text"
+						fullWidth
+						variant="standard"
+						value={inputQualValue}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQualInputValue(e.target.value)}
+					/>
+				</DialogContent>
+
+				<DialogActions>
+					<Button onClick={handleClose} color="inherit">
+						Cancel
+					</Button>
+					<Button onClick={handleSubmitQual} variant="contained" color="primary">
+						Submit
+					</Button>
+				</DialogActions>
+			</Dialog>
+
 		</>
 	);
 }

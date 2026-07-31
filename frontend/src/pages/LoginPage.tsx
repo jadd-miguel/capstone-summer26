@@ -21,7 +21,7 @@ interface LoginProps {
 }
 
 {/* Log in page */ }
-export default function LoginPage({ alert, setIsAuthenticated }: LoginProps): React.JSX.Element {
+export default function LoginPage({ alert, setIsAuthenticated, userProfile, setUserProfile }: LoginProps): React.JSX.Element {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -31,6 +31,16 @@ export default function LoginPage({ alert, setIsAuthenticated }: LoginProps): Re
 	const handleLogin = async (): Promise<void> => {
 
 		try {
+			interface JobDescriptionItem {
+				id: string;
+				profile: number;
+				job_description: string;
+			}
+			interface QualificationItem {
+				id: string;
+				profile: number;
+				qualification: string;
+			}
 			const payload = { email, password };
 			const response = await api.auth.login(payload);
 
@@ -38,15 +48,43 @@ export default function LoginPage({ alert, setIsAuthenticated }: LoginProps): Re
 				console.log("No success")
 				throw new Error("Login Unsuccessful")
 			}
-			
+
 			console.log("Login successful:", response);
 			//Add code to fetch user data and put it in userProfile
-			let id :string = response.user.id
-			const profile_payload = { user_id : "f4107247-4086-40c7-80ef-4361a54535f3" }
-			const profile_response = await api.profiles.get_jd(id)
+			const jd_response = await api.profiles.get_jd(response.user.id)
+			const qualifications_response = await api.profiles.get_quals(response.user.id)
 
-			console.log(profile_response)
+			//console.log(response)
+			console.log(jd_response)
+			console.log(qualifications_response)
+			
+			const quals: string[] = []
+			qualifications_response.data.forEach((element) => { quals.push(element.profile) });
 
+			const jds: string[] = []
+			jd_response.data.forEach((element) => { jds.push(element.profile) });
+
+			const uniqueProfiles: number = Math.max(new Set(jds).size, new Set(quals).size)
+			const profiles: Profile[] = []
+			for (let i = 0; i < uniqueProfiles; i++) {
+				profiles[i] = new Profile("Role", [], [], [], [])
+			}
+
+			const jdData: JobDescriptionItem[] = jd_response.data 
+			jdData.map((element) => {
+				profiles[element.profile].jobDescriptions.push(element.job_description)
+				profiles[element.profile].jd_ids.push(element.id)
+			});
+			const qualData: QualificationItem[] = qualifications_response.data
+			qualData.map((element) => {
+				profiles[element.profile].qualifications.push(element.qualification)
+				profiles[element.profile].quals_ids.push(element.id)
+			});
+
+
+
+			setUserProfile(new UserProfile(response.user.user_metadata.display_name, response.user.id, profiles))
+			console.log(userProfile)
 			alert("Login successful")
 			setIsAuthenticated(true);
 			navigate('/home');
@@ -58,6 +96,10 @@ export default function LoginPage({ alert, setIsAuthenticated }: LoginProps): Re
 
 
 	};
+
+	const loadProfile  = async (): Promise<void> => {
+		
+	}
 
 	return (
 		<Paper elevation={4} sx={{ marginTop: "1em" }}>

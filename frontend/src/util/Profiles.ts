@@ -1,12 +1,16 @@
 export class Profile {
     targetRole:string;
-    jobDescriptions:string[];
+    jobDescriptions: string[];
     qualifications: string[];
+    jd_ids: string[];
+    quals_ids: string[];
 
-    constructor(targetRole: string, jobDescriptions:string[], qualifications:string[]) {
+    constructor(targetRole: string, jobDescriptions:string[], qualifications:string[], jd_ids: string[], quals_ids: string[]) {
         this.targetRole = targetRole;
         this.jobDescriptions = jobDescriptions
         this.qualifications = qualifications
+        this.jd_ids = jd_ids
+        this.quals_ids = quals_ids
     }
 }
 
@@ -14,11 +18,13 @@ export class UserProfile {
     name: string;
     selectedProfileIndex: number = 0;
     profiles: Profile[]
+    userId: string;
 
 
-    constructor(name: string, profiles:Profile[]) {
+    constructor(name: string, userId: string, profiles:Profile[]) {
         this.name = name;
         this.profiles = profiles
+        this.userId = userId
     }
 
     getTargetRole(){
@@ -31,6 +37,14 @@ export class UserProfile {
 
     getQualifications(){
         return this.profiles[this.selectedProfileIndex].qualifications
+    }
+
+    getJdIds(){
+        return this.profiles[this.selectedProfileIndex].jd_ids
+    }
+
+    getQualsIds(){
+        return this.profiles[this.selectedProfileIndex].quals_ids
     }
 
 }

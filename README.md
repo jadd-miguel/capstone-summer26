@@ -10,11 +10,11 @@ roadmapping!
 
 ## Installation
 
-**FRONTEND**
-[Website URL ↗](https://http://localhost:5173/.com/)
+**FRONTEND**<br>
+[Website URL ↗](http://localhost:5173/)
 
 **BACKEND**<br>
-[Server URL ↗](https://capstone-summer26.onrender.com/)
+[Production URL ↗](https://capstone-summer26.onrender.com/)
 
 *Local Dev*
 1. Make sure you have [Python 3.10 and PIP ↗](https://www.python.org/downloads/release/python-31020/).
