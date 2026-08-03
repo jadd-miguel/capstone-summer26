@@ -91,6 +91,8 @@ function App() {
                         {/* Default route navigate to /login */}
                         <Route path="*" element={<Navigate to="/login" replace />} />
 
+                        <Route path="/upload" element={<ResumeUploadPage alert={alert} />} />
+
                     </Routes>
 
                     <Snackbar

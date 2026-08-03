@@ -1,8 +1,10 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 import services.services as service
 from services.util.data_models import AuthenticationError, SupabaseError
 from typing import Dict
+import io
+import pypdf
 
 app = FastAPI()
 
@@ -47,7 +49,7 @@ def name(payload: Dict):
         raise AuthenticationError(e)
 
 @app.get("/jobs")
-def get_jds():
+def get_jobs():
     try:
         return service.get_jobs()
     except Exception as e:
@@ -136,6 +138,28 @@ def delete_role(payload: Dict):
         return service.delete_role(payload)
     except Exception as e:
         raise SupabaseError(e)
+
+@app.post("/upload_and_parse_resume")
+async def upload_and_parse_resume(file: UploadFile = File(...)):
+    try:
+        contents = await file.read()
+        pdf_file = io.BytesIO(contents)
+        reader = pypdf.PdfReader(pdf_file)
+        
+        extracted_text = ""
+        for page in reader.pages:
+            extracted_text += page.extract_text() or ""
+            
+        found_skills = service.extract_skills(extracted_text)
+        
+        return {
+            "status": "success",
+            "filename": file.filename,
+            "extracted_text_snippet": extracted_text[:500] + "...",
+            "extracted_skills": found_skills
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Resume Parse Error: {str(e)}")
 
 @app.post("/gap_agent")
 def gap_agent(payload: Dict):

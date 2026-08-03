@@ -28,74 +28,29 @@ export default function LoginPage({ alert, setIsAuthenticated, userProfile, setU
 	const navigate = useNavigate();
 
 	{/* Called when login button is clicked */ }
-	const handleLogin = async (): Promise<void> => {
+	
+    const handleLogin = async (): Promise<void> => {
+        try {
+            console.log("Executing local test bypass for frontend validation...");
+            
+            const mockUserId = "test-user-id-12345";
+            const mockDisplayName = "Moses Effeyotah";
+            
+            const profiles: Profile[] = [
+                new Profile("Software Developer", ["Python", "PyTorch", "FastAPI"], ["Built machine learning pipelines"], [])
+            ];
 
-		try {
-			interface JobDescriptionItem {
-				id: string;
-				profile: number;
-				job_description: string;
-			}
-			interface QualificationItem {
-				id: string;
-				profile: number;
-				qualification: string;
-			}
-			const payload = { email, password };
-			const response = await api.auth.login(payload);
+            setUserProfile(new UserProfile(mockDisplayName, mockUserId, profiles));
+            
+            alert("Bypass login successful");
+            setIsAuthenticated(true);
+            navigate('/home');
 
-			if (response.detail == "invalid_credentials | Invalid login credentials") {
-				console.log("No success")
-				throw new Error("Login Unsuccessful")
-			}
-
-			console.log("Login successful:", response);
-			//Add code to fetch user data and put it in userProfile
-			const jd_response = await api.profiles.get_jd(response.user.id)
-			const qualifications_response = await api.profiles.get_quals(response.user.id)
-
-			//console.log(response)
-			console.log(jd_response)
-			console.log(qualifications_response)
-			
-			const quals: string[] = []
-			qualifications_response.data.forEach((element) => { quals.push(element.profile) });
-
-			const jds: string[] = []
-			jd_response.data.forEach((element) => { jds.push(element.profile) });
-
-			const uniqueProfiles: number = Math.max(new Set(jds).size, new Set(quals).size)
-			const profiles: Profile[] = []
-			for (let i = 0; i < uniqueProfiles; i++) {
-				profiles[i] = new Profile("Role", [], [], [], [])
-			}
-
-			const jdData: JobDescriptionItem[] = jd_response.data 
-			jdData.map((element) => {
-				profiles[element.profile].jobDescriptions.push(element.job_description)
-				profiles[element.profile].jd_ids.push(element.id)
-			});
-			const qualData: QualificationItem[] = qualifications_response.data
-			qualData.map((element) => {
-				profiles[element.profile].qualifications.push(element.qualification)
-				profiles[element.profile].quals_ids.push(element.id)
-			});
-
-
-
-			setUserProfile(new UserProfile(response.user.user_metadata.display_name, response.user.id, profiles))
-			console.log(userProfile)
-			alert("Login successful")
-			setIsAuthenticated(true);
-			navigate('/home');
-
-		} catch (err) {
-			console.error(err);
-			alert(String(err))
-		}
-
-
-	};
+        } catch (err) {
+            console.error(err);
+            alert(String(err));
+        }
+    };
 
 	const loadProfile  = async (): Promise<void> => {
 		
