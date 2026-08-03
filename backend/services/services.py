@@ -58,7 +58,23 @@ def get_jobs():
     return res.json()
 
 def create_user(payload): return supabase.auth.sign_up(payload)
-def login(payload): return supabase.auth.sign_in_with_password(payload)
+
+def login(payload):
+    res = supabase.auth.sign_in_with_password(payload)
+    user_obj = res.user
+    session_obj = res.session
+    return {
+        "user": {
+            "id": user_obj.id,
+            "email": user_obj.email,
+            "user_metadata": user_obj.user_metadata
+        } if user_obj else None,
+        "session": {
+            "access_token": session_obj.access_token,
+            "refresh_token": session_obj.refresh_token
+        } if session_obj else None
+    }
+
 def logout(): supabase.auth.sign_out()
 def name(payload): return supabase.auth.update_user({"data": {"display_name": payload["name"]}})
 
@@ -140,13 +156,8 @@ def generate_bridge_roles(payload):
 def score_resume(payload: dict) -> dict:
     resume = payload.get("current_resume_text", "")
     jd = payload.get("target_job_description", "")
-    
-    # Run the Math
     score = calculate_match_score(resume, jd)
-    
-    # Run the NLP Extraction
     found_skills = extract_skills(resume)
-    
     return {
         "status": "success",
         "match_score_percentage": score,
