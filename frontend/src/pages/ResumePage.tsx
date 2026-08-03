@@ -10,22 +10,23 @@ import {
     TextField,
     Stack
 } from "@mui/material";
-import * as api from '../util/api.ts'
-import { UserProfile, Profile } from '../util/Profiles.ts'
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { ResumePDF } from '../components/ResumePDF';
+import * as api from '../util/api';
+import { UserProfile } from '../util/Profiles';
 
 interface ResumeProps {
     alert: (message: string) => void;
-    userProfile: UserProfile;
+    userProfile?: UserProfile;
 }
 
 export default function ResumePage({ alert, userProfile }: ResumeProps): React.JSX.Element {
     const [loading, setLoading] = useState(false);
     const [resumeGenerated, setResumeGenerated] = useState('');
-    const [coverLetterGenerated, setCoverLetterGenerated] = useState('');
-    //console.log(userProfile.name)
-    // Dynamic State
-    const [candidateName, setCandidateName] = useState(userProfile.name);
-    const [jobTitle, setJobTitle] = useState(userProfile.getTargetRole());
+    
+    // Dynamic State merging both branches
+    const [candidateName, setCandidateName] = useState(userProfile?.name || "Victor Wembanyama");
+    const [jobTitle, setJobTitle] = useState(userProfile?.getTargetRole() || "Software Developer");
 
     async function copyToClipboard(text: string): Promise<void> {
         try {
@@ -39,73 +40,88 @@ export default function ResumePage({ alert, userProfile }: ResumeProps): React.J
     function downloadMarkdown(filename: string, content: string): void {
         const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
         const url = URL.createObjectURL(blob);
-
         const link = document.createElement('a');
         link.href = url;
         link.download = filename.endsWith('.md') ? filename : `${filename}.md`;
-
         document.body.appendChild(link);
         link.click();
-
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
     }
 
-    const handleResumeCall = async (): Promise<void> => {
+    const handleResumeCall = async () => {
         setLoading(true);
         try {
             const payload = {
                 candidate_name: candidateName,
-                candidate_skills: userProfile.getQualifications(),
-                experience_history: userProfile.getJobDescriptions(),
+                candidate_skills: userProfile ? userProfile.getQualifications() : ["Python", "SQL"],
+                experience_history: userProfile ? userProfile.getJobDescriptions() : ["Developer"],
                 target_job_title: jobTitle,
             };
             const response = await api.agent.generate_resume(payload);
-            setResumeGenerated(response.generated_document);
+            setResumeGenerated(response.generated_document || response);
             alert("Resume generation complete.");
         } catch (err) {
             console.error(err);
-            alert("Error generating resume: " + String(err));
+            alert("Error: " + String(err));
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <Grid container spacing={4} sx={{ p: 4, bgcolor: '#f4f6f8', minHeight: '100vh' }}>
-            {/* Header */}
-            <Grid size={12}>
-                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#1a237e' }}>
-                    Career Architect Dashboard
+        <Box sx={{ p: 4, bgcolor: '#f0f2f5', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ mb: 4 }}>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: '#0A192F' }}>
+                    Career Architect
                 </Typography>
-                <Typography variant="subtitle1" color="text.secondary">
-                    Optimize your profile for high-value job markets.
+                <Typography variant="body1" sx={{ color: '#666' }}>
+                    Generate high-conversion assets using the NaviSkill ML Engine.
                 </Typography>
-            </Grid>
+            </Box>
 
-            {/* Left: Input Form */}
-            <Grid size={4}>
-                <Paper sx={{ p: 3, borderRadius: 2, boxShadow: 3 }}>
-                    <Typography variant="h6" gutterBottom>Profile Details</Typography>
-                    <TextField fullWidth label="Name" value={candidateName} onChange={(e) => setCandidateName(e.target.value)} sx={{ mb: 2 }} />
-                    <TextField fullWidth label="Target Role" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} sx={{ mb: 2 }} />
-                    <Button fullWidth variant="contained" onClick={handleResumeCall} disabled={loading} size="large" sx={{ bgcolor: '#1a237e' }}>
-                        {loading ? <CircularProgress size={24} color="inherit" /> : "BUILD RESUME"}
-                    </Button>
-                </Paper>
-            </Grid>
+            <Grid container spacing={3} sx={{ flexGrow: 1 }}>
+                <Grid item xs={12} md={3}>
+                    <Paper sx={{ p: 3, borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
+                        <Typography variant="h6" sx={{ mb: 2, fontWeight: 700 }}>Configuration</Typography>
+                        <TextField fullWidth label="Name" value={candidateName} onChange={(e) => setCandidateName(e.target.value)} sx={{ mb: 2 }} />
+                        <TextField fullWidth label="Target Role" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} sx={{ mb: 3 }} />
+                        
+                        <Button fullWidth variant="contained" onClick={handleResumeCall} disabled={loading} 
+                                sx={{ py: 1.5, bgcolor: '#0A192F', '&:hover': { bgcolor: '#162d4d' } }}>
+                            {loading ? <CircularProgress size={24} color="inherit" /> : "GENERATE DOCUMENT"}
+                        </Button>
+                    </Paper>
+                </Grid>
 
-            {/* Right: Output Preview */}
-            <Grid size={8}>
-                <Paper sx={{ p: 3, height: '75vh', overflowY: 'auto', borderRadius: 2, boxShadow: 3 }}>
-                    <Typography variant="h6" gutterBottom>Live Preview</Typography>
-                    <ReactMarkdown>{resumeGenerated || "Your professional resume will appear here..."}</ReactMarkdown>
-                </Paper>
-                <Stack direction="row" spacing={2} sx={{ marginTop: "20px" }}>
-                    <Button onClick={() => { copyToClipboard(resumeGenerated) }} variant="contained" color="primary">Copy to clipboard</Button>
-                    <Button onClick={() => { downloadMarkdown("Resume.md", resumeGenerated) }} variant="contained" color="primary">Download Markdown</Button>
-                </Stack>
+                <Grid item xs={12} md={9}>
+                    <Paper sx={{ p: 4, borderRadius: 3, boxShadow: '0 4px 20px rgba(0,0,0,0.08)', height: '70vh', display: 'flex', flexDirection: 'column' }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                            <Typography variant="h6" sx={{ fontWeight: 700 }}>Live Output</Typography>
+                            
+                            {resumeGenerated && (
+                                <Stack direction="row" spacing={2}>
+                                    <Button onClick={() => copyToClipboard(resumeGenerated)} variant="outlined" color="primary">Copy</Button>
+                                    <Button onClick={() => downloadMarkdown("Resume.md", resumeGenerated)} variant="outlined" color="primary">Markdown</Button>
+                                    <PDFDownloadLink 
+                                        document={<ResumePDF data={{ candidate_name: candidateName, target_job_title: jobTitle, content: resumeGenerated }} />} 
+                                        fileName="NaviSkill_Resume.pdf"
+                                    >
+                                        {({ loading }) => (
+                                            <Button variant="contained" color="primary">
+                                                {loading ? 'Preparing...' : 'Export PDF'}
+                                            </Button>
+                                        )}
+                                    </PDFDownloadLink>
+                                </Stack>
+                            )}
+                        </Box>
+                        <Box sx={{ flexGrow: 1, overflowY: 'auto', border: '1px solid #e0e0e0', p: 2, borderRadius: 2 }}>
+                            <ReactMarkdown>{resumeGenerated || "AI output will be rendered here in real-time..."}</ReactMarkdown>
+                        </Box>
+                    </Paper>
+                </Grid>
             </Grid>
-        </Grid>
+        </Box>
     );
 }
