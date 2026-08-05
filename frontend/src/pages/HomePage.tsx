@@ -14,7 +14,7 @@ export default function HomePage({ alert }: any) {
                     Command center for your career architecture.
                 </Typography>
             </Box>
-            
+
             <Grid container spacing={4}>
                 {/* Jobs Section */}
                 <Grid size={6}>
@@ -43,9 +43,13 @@ export default function HomePage({ alert }: any) {
                         <Button fullWidth variant="outlined" onClick={() => navigate("/resume")} sx={{ mb: 2, py: 1.5 }}>
                             Resume Generator
                         </Button>
-                        <Button fullWidth variant="outlined" onClick={() => navigate("/coverLetter")} sx={{ py: 1.5 }}>
+                        <Button fullWidth variant="outlined" onClick={() => navigate("/coverLetter")} sx={{ mb: 2, py: 1.5 }}>
                             Cover Letter
                         </Button>
+                        <Button fullWidth variant="outlined" onClick={() => navigate("/upload")} sx={{ py: 1.5 }}>
+                            Upload Resume
+                        </Button>
+
                     </Paper>
                 </Grid>
             </Grid>

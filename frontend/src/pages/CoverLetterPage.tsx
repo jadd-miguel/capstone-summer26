@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 import * as api from '../util/api.ts'
 import { UserProfile } from '../util/Profiles.ts'
-
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { ResumePDF } from '../components/ResumePDF';
 interface ResumeProps {
     alert: (message: string) => void;
     userProfile: UserProfile;
@@ -48,7 +49,7 @@ export default function CoverLetterPage({ alert, userProfile }: ResumeProps): Re
         URL.revokeObjectURL(url);
     }
 
-    const handleResumeCall = async (): Promise<void> => {
+    const handleCoverLetterCall = async (): Promise<void> => {
         setLoading(true);
         try {
             const payload = {
@@ -68,6 +69,7 @@ export default function CoverLetterPage({ alert, userProfile }: ResumeProps): Re
         }
     };
 
+    
     return (
         <Grid container spacing={4} sx={{ p: 4, bgcolor: '#f4f6f8', minHeight: '100vh' }}>
             {/* Header */}
@@ -86,7 +88,7 @@ export default function CoverLetterPage({ alert, userProfile }: ResumeProps): Re
                     <Typography variant="h6" gutterBottom>Profile Details</Typography>
                     <TextField fullWidth label="CompanyName" value={companyName} onChange={(e) => setCompanyName(e.target.value)} sx={{ mb: 2 }} />
                     <TextField fullWidth label="Target Role" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} sx={{ mb: 2 }} />
-                    <Button fullWidth variant="contained" onClick={handleResumeCall} disabled={loading} size="large" sx={{ bgcolor: '#1a237e' }}>
+                    <Button fullWidth variant="contained" onClick={handleCoverLetterCall} disabled={loading} size="large" sx={{ bgcolor: '#1a237e' }}>
                         {loading ? <CircularProgress size={24} color="inherit" /> : "BUILD COVER LETTER"}
                     </Button>
                 </Paper>
@@ -96,6 +98,22 @@ export default function CoverLetterPage({ alert, userProfile }: ResumeProps): Re
             <Grid size={8}>
                 <Paper sx={{ p: 3, height: '75vh', overflowY: 'auto', borderRadius: 2, boxShadow: 3 }}>
                     <Typography variant="h6" gutterBottom>Live Preview</Typography>
+                    {coverLetterGenerated && (
+                        <Stack direction="row" spacing={2}>
+                            <Button onClick={() => copyToClipboard(coverLetterGenerated)} variant="outlined" color="primary">Copy</Button>
+                            <Button onClick={() => downloadMarkdown("Resume.md", coverLetterGenerated)} variant="outlined" color="primary">Markdown</Button>
+                            <PDFDownloadLink
+                                document={<ResumePDF data={{ candidate_name: userProfile.name, target_job_title: jobTitle, content: coverLetterGenerated }} />}
+                                fileName="NaviSkill_Resume.pdf"
+                            >
+                                {({ loading }) => (
+                                    <Button variant="contained" color="primary">
+                                        {loading ? 'Preparing...' : 'Export PDF'}
+                                    </Button>
+                                )}
+                            </PDFDownloadLink>
+                        </Stack>
+                    )}
                     <ReactMarkdown>{coverLetterGenerated || "Your professional cover Letter will appear here..."}</ReactMarkdown>
                 </Paper>
                 <Stack direction="row" spacing={2} sx={{ marginTop: "20px" }}>
