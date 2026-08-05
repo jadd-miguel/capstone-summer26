@@ -46,6 +46,9 @@ export default function HomePage({ alert }: any) {
                         <Button fullWidth variant="outlined" onClick={() => navigate("/coverLetter")} sx={{ py: 1.5 }}>
                             Cover Letter
                         </Button>
+                        <Button variant="outlined" sx={{ mt: 2, py: 1.5, borderColor: '#1976d2', color: '#1976d2', fontWeight: 600 }}onClick={() => navigate('/upload')}>
+                            Upload Resume
+                        </Button>
                     </Paper>
                 </Grid>
             </Grid>

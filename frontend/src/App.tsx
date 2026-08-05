@@ -10,6 +10,7 @@ import ProfilesPage from './pages/ProfilesPage.tsx'
 import Roadmap from './pages/@RoadmapPage/Roadmap.tsx'
 import ResumePage from './pages/ResumePage.tsx'
 import CoverLetterPage from './pages/CoverLetterPage.tsx'
+import ResumeUploadPage from './pages/ResumeUploadPage.tsx' // Added upload page import
 import { CssBaseline, Snackbar, ThemeProvider, createTheme } from '@mui/material'
 import SignupPage from './pages/SignupPage.tsx'
 import RoadmapPage from './pages/RoadmapPage.tsx'
@@ -18,7 +19,6 @@ import QualJobPage from './pages/QualJobPage.tsx'
 import {UserProfile, Profile} from './util/Profiles.ts'
 
 function App() {
-    //const [roadmaps, setRoadmaps] = React.useState([])
     const [userProfile, setUserProfile] = React.useState<UserProfile>(new UserProfile("Place Holder", [new Profile("Role 1", ["Job 1", "Job 2"], ["Qual 1", "Qual 2"]), new Profile("Role 2", ["Job 3", "Job 4"], ["Qual 3", "Qual 4"])]));
 
     {/* Snackbar object */ }
@@ -27,7 +27,7 @@ function App() {
         message: ""
     });
 
-    {/* Snackbar funtion */ }
+    {/* Snackbar function */ }
     const alert = (message: string) => {
         setSnackBar({
             open: true,
@@ -35,7 +35,7 @@ function App() {
         })
     }
 
-    {/* Variable to check if user if logged in */ }
+    {/* Variable to check if user is logged in */ }
     const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
 
     {/* Variable to use in Light/Dark Mode */ }
@@ -65,8 +65,6 @@ function App() {
     return (
         <>
             <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-
-                {/* Used for Light/Dark Theme */}
                 <CssBaseline />
 
                 <Router>
@@ -77,8 +75,6 @@ function App() {
                         <Route path="/signup" element={<SignupPage alert={alert} />} />
 
                         {/* Protected Routes Wrapper */}
-                        {/* isAuthenticated needs to be true to be able to access them */}
-                        {/* Any new pages should go inside this Route */}
                         <Route element={<PrivateRoutes isAuthenticated={isAuthenticated} />}>
                             <Route path="/home" element={<HomePage alert={alert} />} />
                             <Route path="/info" element={<QualJobPage />} />
@@ -86,13 +82,11 @@ function App() {
                             <Route path="/resume" element={<ResumePage alert={alert} userProfile={userProfile} />} />
                             <Route path="/coverLetter" element={<CoverLetterPage alert={alert} userProfile={userProfile} />} />
                             <Route path="/roadmap" element={<RoadmapPage/>} />
+                            <Route path="/upload" element={<ResumeUploadPage alert={alert} />} />
                         </Route>
 
                         {/* Default route navigate to /login */}
                         <Route path="*" element={<Navigate to="/login" replace />} />
-
-                        <Route path="/upload" element={<ResumeUploadPage alert={alert} />} />
-
                     </Routes>
 
                     <Snackbar
@@ -103,7 +97,6 @@ function App() {
                         }}
                         message={snackbar.message}
                     />
-
                 </Router>
             </ThemeProvider>
         </>
