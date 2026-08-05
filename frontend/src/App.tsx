@@ -5,9 +5,9 @@ import PrivateRoutes from './components/PrivateRoutes.tsx'
 import Header from './components/Header.tsx'
 import LoginPage from './pages/LoginPage.tsx'
 import HomePage from './pages/HomePage.tsx'
-import MyInfoPage from './pages/MyInfoPage.tsx'
+//import MyInfoPage from './pages/MyInfoPage.tsx'
 import ProfilesPage from './pages/ProfilesPage.tsx'
-import Roadmap from './pages/@RoadmapPage/Roadmap.tsx'
+//import Roadmap from './pages/@RoadmapPage/Roadmap.tsx'
 import ResumePage from './pages/ResumePage.tsx'
 import CoverLetterPage from './pages/CoverLetterPage.tsx'
 import { CssBaseline, Snackbar, ThemeProvider, createTheme } from '@mui/material'
@@ -19,7 +19,7 @@ import {UserProfile, Profile} from './util/Profiles.ts'
 
 function App() {
     //const [roadmaps, setRoadmaps] = React.useState([])
-    const [userProfile, setUserProfile] = React.useState<UserProfile>(new UserProfile("Place Holder", [new Profile("Role 1", ["Job 1", "Job 2"], ["Qual 1", "Qual 2"]), new Profile("Role 2", ["Job 3", "Job 4"], ["Qual 3", "Qual 4"])]));
+    const [userProfile, setUserProfile] = React.useState<UserProfile>(new UserProfile("Place Holder", "id", [new Profile("Role 1", ["Job 1", "Job 2"], ["Qual 1", "Qual 2"], ["jd id1", "jd id2"], ["qual id1, qualid2"]), new Profile("Role 2", ["Job 3", "Job 4"], ["Qual 3", "Qual 4"], ["jd id1", "jd id2"], ["qual id1, qualid2"])]));
 
     {/* Snackbar object */ }
     const [snackbar, setSnackBar] = React.useState({
@@ -91,7 +91,7 @@ function App() {
                         {/* Default route navigate to /login */}
                         <Route path="*" element={<Navigate to="/login" replace />} />
 
-                        <Route path="/upload" element={<ResumeUploadPage alert={alert} />} />
+                        {/*<Route path="/upload" element={<ResumeUploadPage alert={alert} />} />*/}
 
                     </Routes>
 
