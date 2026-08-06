@@ -22,14 +22,17 @@ roadmapping!
 `cd backend`
 3. Build python env
 `python -m venv capstone-backend-env`
-4. Install dependencies
-`pip install -r requirements.txt`
-5. Activate env
+
+4. Activate env
 ```
 capstone-backend-env\Scripts\activate.bat // cmd
 source capstone-backend-env/Scripts/activate // bash
 capstone-backend-env\Scripts\Activate.ps1 // powershell
 ```
+
+5. Install dependencies
+`pip install -r requirements.txt`
+
 6. Build app 
 `uvicorn controller:app --reload`
 7. Server is ready
