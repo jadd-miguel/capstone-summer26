@@ -13,6 +13,13 @@ roadmapping!
 **FRONTEND**<br>
 [Website URL ↗](http://localhost:5173/)
 
+1. To frontend folder
+`cd backend`
+2. Install dependencies
+`npm install`
+3. Run application
+`npm run dev`
+
 **BACKEND**<br>
 [Production URL ↗](https://capstone-summer26.onrender.com/)
 
